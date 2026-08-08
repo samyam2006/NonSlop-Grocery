@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meal Plan &amp; Shopping List Generator | NonSlop</title>
+<meta name="description" content="Build a personalised weekly real-food meal plan, an auto-generated categorised shopping list, and a live cost estimate — tailored to your household, budget and diet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <a class="brand" href="guide.html">
+      <span class="logo">Non<span class="amp">·</span>Slop</span>
+      <span class="est">The Grocery Navigator</span>
+    </a>
+    <button class="nav-toggle" id="navToggle">Menu</button>
+    <nav class="nav" id="primaryNav">
+      <a href="guide.html">Home</a>
+      <a href="stores.html">Stores</a>
+      <a href="avoid.html">What to Avoid</a>
+      <a href="optimize.html">Optimize</a>
+      <a href="plan.html" class="active">Meal Plan</a>
+      <a href="tools.html">Tools</a>
+    </nav>
+  </div>
+  <div class="masthead-strip">
+    <div class="wrap">
+      <span>The Planner</span>
+      <span>Plan · List · Cost</span>
+      <span>Built for your household</span>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="dateline">
+      <span class="kicker">The Planner</span>
+      <span class="mono" style="font-size:0.72rem;color:var(--muted);">Section 05 · The part that does the work</span>
+    </div>
+    <h1>Your week of<br>real food —<br>planned and<br>listed for you.</h1>
+    <p class="lede sub">Set your household, budget and diet. In one tap you get a full week of meals, a categorised shopping list scaled to your family, and what it actually costs — ready to print and take to the store.</p>
+  </div>
+</section>
+
+<section id="planApp">
+  <div class="wrap">
+
+    <!-- controls -->
+    <div class="plan-controls">
+      <div class="pc-field">
+        <label for="planHousehold">People</label>
+        <input type="number" id="planHousehold" value="2" min="1" max="12">
+      </div>
+      <div class="pc-field">
+        <label>Days</label>
+        <div class="seg" id="segDays">
+          <button data-v="3">3</button>
+          <button data-v="5">5</button>
+          <button data-v="7" class="on">7</button>
+        </div>
+      </div>
+      <div class="pc-field">
+        <label>Diet</label>
+        <div class="seg" id="segDiet">
+          <button data-v="omnivore" class="on">Omnivore</button>
+          <button data-v="pescatarian">Pescatarian</button>
+        </div>
+      </div>
+      <div class="pc-field">
+        <label>Sourcing tier</label>
+        <div class="seg" id="segTier">
+          <button data-v="budget">Budget</button>
+          <button data-v="standard" class="on">Standard</button>
+          <button data-v="premium">Premium</button>
+        </div>
+      </div>
+      <div class="pc-field pc-slots">
+        <label>Meals per day</label>
+        <div class="slotrow">
+          <label class="slotbox"><input type="checkbox" id="slot-breakfast" checked> Breakfast</label>
+          <label class="slotbox"><input type="checkbox" id="slot-lunch" checked> Lunch</label>
+          <label class="slotbox"><input type="checkbox" id="slot-dinner" checked> Dinner</label>
+        </div>
+      </div>
+      <div class="pc-actions">
+        <button class="btn" id="planRegen">↻ Regenerate</button>
+        <button class="btn btn-ghost" id="planPrint">Print / Save PDF</button>
+      </div>
+    </div>
+
+    <!-- cost summary -->
+    <div class="plan-cost">
+      <div class="pcost"><div class="pcost-n" id="costWeekly">—</div><div class="pcost-l">Estimated / week</div></div>
+      <div class="pcost"><div class="pcost-n" id="costPerPerson">—</div><div class="pcost-l">Per person / day</div></div>
+      <div class="pcost"><div class="pcost-n" id="costMonthly">—</div><div class="pcost-l">Monthly total</div></div>
+    </div>
+    <p class="plan-compare" id="costCompare"></p>
+
+    <div class="plan-split">
+      <!-- meal plan -->
+      <div class="plan-col">
+        <div class="section-head" style="border-bottom:1px solid var(--ink);margin-bottom:20px;">
+          <span class="num">→</span>
+          <h2 style="font-size:clamp(1.5rem,2.6vw,2rem);">Your meal plan</h2>
+        </div>
+        <div id="planGrid" class="plan-grid"></div>
+      </div>
+
+      <!-- shopping list -->
+      <div class="plan-col">
+        <div class="section-head" style="border-bottom:1px solid var(--ink);margin-bottom:20px;">
+          <span class="num">→</span>
+          <h2 style="font-size:clamp(1.5rem,2.6vw,2rem);">Your shopping list</h2>
+        </div>
+        <div class="count" id="listCount"></div>
+        <div id="shopList" class="shop-list"></div>
+      </div>
+    </div>
+
+    <p class="disclaimer">Meals and costs are examples to build from, not a prescription. Cost is an estimate at typical whole-food prices and varies by country, store and sales. Adjust portions to your own appetite and needs. Educational only — not medical or dietary advice; if you have a condition, allergy, or are pregnant, check with a professional.</p>
+  </div>
+</section>
+
+<section class="invert no-print">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">→</span>
+      <h2>How to use it</h2>
+      <p class="section-sub">Three moves and your week is handled.</p>
+    </div>
+    <div class="grid cols-3 frame">
+      <div class="tile"><span class="idx">01 · SET</span><h3>Tell it about you</h3><p>People, days, budget tier and diet. The plan and list rescale instantly.</p></div>
+      <div class="tile"><span class="idx">02 · GENERATE</span><h3>Hit regenerate</h3><p>Don't like a week? Regenerate for a fresh rotation until it looks right.</p></div>
+      <div class="tile"><span class="idx">03 · SHOP</span><h3>Print &amp; go</h3><p>Print or save the list as a PDF, cross-check it against the store directory, and shop the edges.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="no-print">
+  <div class="wrap">
+    <div class="crosslinks">
+      <a href="stores.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Where to buy it</p>
+        <h3>The store directory</h3>
+        <p>Find the best store near you for everything on your list.</p>
+      </a>
+      <a href="tools.html">
+        <span class="arrow">→</span>
+        <p class="kicker">What it costs</p>
+        <h3>The budget calculator</h3>
+        <p>Cross-check the plan against a full monthly food budget.</p>
+      </a>
+      <a href="optimize.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Why these foods</p>
+        <h3>Eat to optimise</h3>
+        <p>The nutrition behind every meal in the plan.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot no-print">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">Non·Slop</div>
+        <p>An independent field guide to buying real food anywhere in the world. No sponsors, no affiliate links, no supplement store attached.</p>
+      </div>
+      <div>
+        <h4>The Guides</h4>
+        <a href="guide.html">Home &amp; Doctrine</a>
+        <a href="stores.html">Store Directory</a>
+        <a href="avoid.html">What to Avoid</a>
+        <a href="optimize.html">Eat to Optimise</a>
+        <a href="plan.html">Meal Plan &amp; List</a>
+        <a href="tools.html">Budget · Water · Hygiene</a>
+      </div>
+      <div>
+        <h4>The Planner</h4>
+        <a href="#planApp">Build a week</a>
+        <a href="#planApp">Shopping list</a>
+        <a href="#planApp">Cost estimate</a>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span>© <span data-year></span> The NonSlop Grocery Navigator · Volume One</span>
+      <span>Educational only · Not medical advice · Verify sourcing locally</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/meals-data.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/plan.js"></script>
+</body>
+</html>

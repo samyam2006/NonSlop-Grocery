@@ -592,6 +592,74 @@ section{padding:clamp(44px,6vw,86px) 0;}
 }
 .js .section-head.in .num::after{width:38px;}
 
+/* =========================================================================
+   MEAL-PLAN GENERATOR
+   ========================================================================= */
+.plan-controls{
+  border:2px solid var(--ink);display:grid;
+  grid-template-columns:auto auto auto auto;gap:0;align-items:stretch;
+}
+.plan-controls .pc-field{padding:18px 22px;border-right:var(--hair);border-bottom:var(--hair);}
+.plan-controls .pc-field label{display:block;font-family:var(--sans);font-size:0.68rem;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.plan-controls input[type=number]{width:90px;border:1px solid var(--ink);background:var(--white);
+  padding:9px 11px;font-family:var(--serif);font-size:1.1rem;color:var(--ink);}
+.plan-controls .pc-slots{grid-column:1 / -1;border-right:none;}
+.slotrow{display:flex;gap:18px;flex-wrap:wrap;}
+.slotbox{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:1rem;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:400;cursor:pointer;}
+.pc-actions{grid-column:1 / -1;display:flex;gap:12px;flex-wrap:wrap;padding:18px 22px;border-right:none;border-bottom:none;}
+.pc-actions .btn{cursor:pointer;font-size:0.78rem;padding:12px 20px;}
+@media(max-width:820px){.plan-controls{grid-template-columns:1fr 1fr;}.plan-controls .pc-field:nth-child(2n){border-right:none;}}
+@media(max-width:520px){.plan-controls{grid-template-columns:1fr;}.plan-controls .pc-field{border-right:none;}}
+
+.plan-cost{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);border-top:none;}
+.plan-cost .pcost{padding:22px;border-right:var(--hair);}
+.plan-cost .pcost:last-child{border-right:none;}
+.plan-cost .pcost-n{font-family:var(--display);font-weight:600;font-size:clamp(2rem,4vw,2.8rem);line-height:1;font-variant-numeric:tabular-nums;}
+.plan-cost .pcost-l{font-family:var(--sans);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:8px;}
+@media(max-width:560px){.plan-cost{grid-template-columns:1fr;}.plan-cost .pcost{border-right:none;border-bottom:var(--hair);}}
+.plan-compare{font-size:0.98rem;color:var(--ink-2);margin:16px 0 40px;max-width:60ch;}
+
+.plan-split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,64px);}
+@media(max-width:860px){.plan-split{grid-template-columns:1fr;gap:44px;}}
+
+.plan-grid{display:flex;flex-direction:column;gap:0;border-top:var(--hair-strong);}
+.plan-day{border-bottom:var(--hair);padding:16px 0;}
+.plan-daynum{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.plan-meal{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:8px 0;align-items:baseline;}
+.plan-slot{font-family:var(--sans);font-size:0.64rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding-top:3px;}
+.plan-name{font-family:var(--display);font-weight:600;font-size:1.12rem;line-height:1.15;}
+.plan-note{font-size:0.9rem;color:var(--muted);margin-top:3px;}
+
+.shop-list{border-top:var(--hair-strong);}
+.shop-cat{border-bottom:var(--hair);padding:16px 0;}
+.shop-cat h4{font-family:var(--sans);font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;}
+.shop-cat ul{list-style:none;margin:0;padding:0;}
+.shop-cat li{margin:0;}
+.shop-cat li label{display:flex;align-items:baseline;gap:12px;padding:7px 0;cursor:pointer;}
+.shop-cat li input{margin:0;position:relative;top:2px;flex:0 0 auto;width:15px;height:15px;accent-color:var(--ink);}
+.shop-item{flex:1;font-size:1.02rem;}
+.shop-cat li input:checked ~ .shop-item{text-decoration:line-through;color:var(--muted);}
+.shop-qty{font-family:var(--mono);font-size:0.85rem;color:var(--ink-2);white-space:nowrap;}
+
+/* =========================================================================
+   PRINT — clean plan + list only
+   ========================================================================= */
+@media print{
+  .masthead,.no-print,.site-foot,.scroll-progress,.buybar,.plan-controls,.page-head .dateline,.plan-compare .no-print{display:none !important;}
+  body{background:#fff;color:#000;font-size:12pt;}
+  .page-head{padding:0 0 12px;border-bottom:2px solid #000;}
+  .page-head h1{font-size:22pt;}
+  .page-head .sub{display:none;}
+  section{padding:12px 0;}
+  .plan-cost{border-color:#000;}
+  .plan-split{grid-template-columns:1fr 1fr;gap:24px;}
+  .plan-day,.shop-cat{break-inside:avoid;}
+  .plan-name{font-size:12pt;}
+  a[href]::after{content:"";}
+  .invert{background:#fff !important;color:#000 !important;}
+}
+
 /* entry gate — the one click that unlocks sound */
 .intro-enter{position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;}
 .intro-enter.hide{opacity:0;pointer-events:none;transition:opacity .45s ease;}
