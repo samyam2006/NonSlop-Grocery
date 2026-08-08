@@ -106,6 +106,18 @@
         return el;
       }
       function outLine(el){ if(el) el.classList.add('out'); }
+      function showCard(text){
+        slot.innerHTML = '<div class="intro-card"><span class="intro-rule"></span><span class="intro-kick">'+text+'</span><span class="intro-rule"></span></div>';
+        var el = slot.firstChild;
+        requestAnimationFrame(function(){ el.classList.add('show'); });
+        return el;
+      }
+      function showStat(big, sub){
+        slot.innerHTML = '<div class="intro-stat"><div class="big">'+big+'</div><div class="sub">'+sub+'</div></div>';
+        var el = slot.firstChild;
+        requestAnimationFrame(function(){ el.classList.add('show'); });
+        return el;
+      }
       function showBuzz(text){
         slot.innerHTML = '<span class="intro-buzz">' + text + '<span class="bar"></span></span>';
         var el = slot.firstChild;
@@ -113,7 +125,7 @@
         setTimeout(function(){ el.classList.add('strike'); if(snd) snd.strike(); }, 230);
       }
       function showLogo(){
-        slot.innerHTML = '<div class="intro-logo"><div class="lg">Non<span class="amp">·</span>Slop</div><div class="tag">The Grocery Navigator</div></div>';
+        slot.innerHTML = '<div class="intro-logo"><div class="lg">Non<span class="amp">·</span>Slop</div><span class="lg-rule"></span><div class="tag">The Grocery Navigator</div></div>';
         var el = slot.firstChild;
         requestAnimationFrame(function(){ el.classList.add('show'); });
         if(snd) snd.boom();
@@ -169,19 +181,31 @@
       document.body.classList.add('intro-lock');
       intro.classList.add('play','go');
 
-      var line1;
-      at(140,  function(){ line1 = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
-      at(1450, function(){ outLine(line1); });
-      at(1650, function(){ showBuzz('All&nbsp;natural.'); });
-      at(2250, function(){ showBuzz('Low&nbsp;fat.'); });
-      at(2850, function(){ showBuzz('Multigrain.'); });
-      at(3500, function(){ if(snd) snd.riser(1.15); });
-      at(3650, function(){ var l = showLine('In every aisle.'); at(900, function(){ outLine(l); }); });
-      at(4800, function(){ showLogo(); });
-      at(6050, function(){ endIntro(); });
+      var cur;
+      /* 1 — title card */
+      at(200,   function(){ cur = showCard('The NonSlop Grocery Navigator · Vol. One'); if(snd) snd.tick(); });
+      at(1550,  function(){ outLine(cur); });
+      /* 2 — the hook */
+      at(1800,  function(){ cur = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
+      at(3100,  function(){ outLine(cur); });
+      /* 3 — the wall of lies */
+      at(3350,  function(){ showBuzz('All&nbsp;natural.'); });
+      at(3900,  function(){ showBuzz('Low&nbsp;fat.'); });
+      at(4450,  function(){ showBuzz('Multigrain.'); });
+      at(5000,  function(){ showBuzz('“Made with real&nbsp;fruit.”'); });
+      /* 4 — the shock statistic */
+      at(5700,  function(){ cur = showStat('1 in 2', 'items in the average cart is ultra-processed.'); if(snd) snd.riser(0.7); });
+      at(7200,  function(){ outLine(cur); });
+      /* 5 — the turn */
+      at(7450,  function(){ cur = showLine('Real food never needed a <em>label.</em>'); if(snd) snd.riser(1.0); });
+      at(8650,  function(){ outLine(cur); });
+      /* 6 — logo lockup */
+      at(8950,  function(){ showLogo(); });
+      /* 7 — curtain up */
+      at(10250, function(){ endIntro(); });
 
       /* hard backstop: guarantee teardown even if a cue throws */
-      setTimeout(function(){ endIntro(); }, 7600);
+      setTimeout(function(){ endIntro(); }, 11600);
     }
   }
 
