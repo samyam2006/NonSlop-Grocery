@@ -3,18 +3,32 @@
 An independent, ad-free field guide to buying real food anywhere in the world.
 No sponsors, no affiliate links — just the ingredient list, read honestly.
 
-A static, multi-page site with a black-and-white editorial design. Open
-`index.html` in any browser; no build step or server required.
+A static, multi-page site with a black-and-white editorial design, packaged as
+a **paid product ($50, one-time)**: a public sales page in front of a members
+guide. Open `index.html` in any browser; no build step or server required.
 
 ## Pages
 
+**Public**
+
 | File | What it covers |
 |------|----------------|
-| `index.html` | Home — a long introduction on why real food became hard to find, and the seven core rules. |
+| `index.html` | **Sales / landing page** — sells the guide, lists what's inside, pricing, FAQ, and the $50 CTA. |
+
+**The paid guide (members area)**
+
+| File | What it covers |
+|------|----------------|
+| `guide.html` | Home — a long introduction on why real food became hard to find, and the seven core rules. |
 | `stores.html` | A searchable directory of **141 grocery stores** across 7 world regions, with what to buy at each. |
 | `avoid.html` | What to avoid no matter what, a secret-ingredient decoder, and fake-healthy foods exposed. |
 | `optimize.html` | What to eat for health, hormones and mental clarity, plus a **superfood sourcing map**. |
 | `tools.html` | A real-food **budget calculator**, free clean-water sources, and a clean hygiene-product list. |
+
+## Selling it
+
+See **[SETUP.md](SETUP.md)** — how to wire up payment (Payhip / Gumroad / Ghost),
+gate the members area, and the single `href` you need to edit in `index.html`.
 
 ## Structure
 

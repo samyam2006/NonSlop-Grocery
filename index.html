@@ -3,11 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The NonSlop Grocery Navigator — A Field Guide to Real Food</title>
-<meta name="description" content="An independent, ad-free field guide to buying real food: 141 vetted grocery stores worldwide, what to avoid, what to eat for health, testosterone and mental clarity, superfoods, a budget calculator, clean water and hygiene.">
+<title>The NonSlop Grocery Navigator — The Real-Food System, $50</title>
+<meta name="description" content="A complete, ad-free real-food system: a searchable directory of 141 grocery stores worldwide, a live budget calculator, the ingredients and brands to avoid, and what to eat for health, hormones and clarity. One-time $50 for lifetime access.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
+<!--
+  ============================================================================
+  CHECKOUT LINK — READ ME
+  Every "Get access" button below points to  href="#pricing"  except the real
+  purchase button in the pricing section, which has  id="buyBtn".
+  Replace that ONE href with your Payhip / Gumroad / Stripe checkout URL.
+  After purchase, your platform should grant the buyer access to guide.html
+  (the members area). See SETUP.md for the full step-by-step.
+  ============================================================================
+-->
 </head>
 <body>
 
@@ -19,18 +29,18 @@
     </a>
     <button class="nav-toggle" id="navToggle">Menu</button>
     <nav class="nav" id="primaryNav">
-      <a href="index.html" class="active">Home</a>
-      <a href="stores.html">Stores</a>
-      <a href="avoid.html">What to Avoid</a>
-      <a href="optimize.html">Optimize</a>
-      <a href="tools.html">Tools</a>
+      <a href="#inside">What's Inside</a>
+      <a href="#tools">The Tools</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="nav-cta" href="#pricing">Get Access — $50</a>
     </nav>
   </div>
   <div class="masthead-strip">
     <div class="wrap">
-      <span>The Real-Food Field Guide</span>
+      <span>The Real-Food System</span>
       <span>№ 01 · Independent &amp; Ad-Free</span>
-      <span>141 Stores · 7 Regions</span>
+      <span>One-time $50 · Lifetime access</span>
     </div>
   </div>
 </header>
@@ -39,158 +49,194 @@
 <section class="hero">
   <div class="wrap">
     <div class="issue-line">
-      <span>Volume One</span>
-      <span>The Whole-Food Doctrine</span>
+      <span>The Complete System</span>
+      <span>141 Stores · 7 Regions</span>
       <span>No sponsors · No affiliate links</span>
     </div>
-    <h1>Eat like the<br>label is <em>lying</em><br>to you.</h1>
+    <h1>Stop guessing<br>in the <em>grocery</em><br>store.</h1>
     <div class="hero-grid">
       <div>
-        <p class="lede">Most of what sits on a supermarket shelf was engineered to be bought, not to nourish you. This is a plain-spoken guide to walking into any store, on any continent, and leaving with food that a farmer from a hundred years ago would still recognise.</p>
+        <p class="lede">A complete, ad-free real-food system: exactly what to buy — and what to walk past — in 141 grocery stores worldwide, with a live budget calculator, a superfood sourcing map, and the hidden ingredients and fake-healthy brands laid bare. Everything the food industry would rather you never learn, in one place.</p>
         <div class="spacer-sm"></div>
-        <a class="link-underline mono" href="#manifesto">Read the doctrine below ↓</a>
+        <div class="cta-row">
+          <a class="btn btn-lg" href="#pricing">Get instant access <span class="price-badge">$50</span></a>
+          <span class="cta-note">One-time payment · Lifetime access</span>
+        </div>
       </div>
       <div class="hero-side">
-        <p class="kicker">Inside this guide</p>
+        <p class="kicker">What you get</p>
         <div class="spacer-sm"></div>
         <p class="mono" style="font-size:0.92rem;line-height:2;margin:0;">
-          141 vetted stores, 7 regions<br>
+          141-store searchable directory<br>
+          Live real-food budget calculator<br>
           The non-negotiable avoid list<br>
-          Fake "health foods" exposed<br>
+          Hidden ingredients &amp; fake brands<br>
           Food for hormones &amp; clarity<br>
-          A superfood sourcing map<br>
-          Budget · water · hygiene tools
+          Superfood sourcing map<br>
+          Clean water &amp; hygiene guides
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= LONG INTRO / MANIFESTO ================= -->
-<section id="manifesto">
+<!-- ================= PROOF STRIP ================= -->
+<div class="wrap">
+  <div class="proof">
+    <div><div class="n">141</div><div class="l">Stores vetted, 7 regions</div></div>
+    <div><div class="n">5</div><div class="l">In-depth guides</div></div>
+    <div><div class="n">30+</div><div class="l">Fake-healthy traps exposed</div></div>
+    <div><div class="n">$0</div><div class="l">In ads or sponsorship</div></div>
+  </div>
+</div>
+
+<!-- ================= THE PROBLEM ================= -->
+<section id="why">
   <div class="narrow">
     <div class="section-head" style="grid-template-columns:1fr;">
-      <p class="kicker">The Introduction</p>
-      <h2>Why real food became the hard thing to find</h2>
+      <p class="kicker">Why this exists</p>
+      <h2>The store is designed to confuse you. This is the map.</h2>
     </div>
-
-    <p class="dropcap">There was a time, and it was not so long ago, when buying food did not require a degree in label-reading. Bread was flour, water, salt and time. Meat came from an animal that ate what its species evolved to eat. A tomato tasted like a tomato because it had been allowed to ripen in soil and sun rather than in a truck. Nobody spoke of "clean eating," because there was very little of the other kind to distinguish it from.</p>
-
-    <p>That world was dismantled deliberately, and quickly. Over roughly two generations, the majority of what fills a modern grocery store stopped being food in the old sense and became something closer to a product: a shelf-stable, brightly-packaged, precisely-engineered arrangement of refined starch, industrial seed oil, added sugar and additives whose only job is to make you eat past the point of fullness and come back for more. The industry has a term for the sweet spot where fat, salt and sugar overwhelm the brain's ability to say <em>enough</em>. They call it the bliss point, and they pay laboratories to find it.</p>
-
-    <p>None of this is a conspiracy theory; it is a business model, printed openly in quarterly reports. A box of cereal costs pennies to make and sells for several dollars precisely because the cheap ingredients — subsidised corn, wheat and soy — have been transformed into something that no longer spoils, no longer satisfies, and no longer resembles the plant it came from. The genius of it is that the packaging then sells the very virtue it destroyed: "whole grain," "all natural," "a good source of fibre," "supports immune health." The health claim on the front of the box exists in inverse proportion to the health inside it. If a food needs to advertise that it is good for you, that is usually the first clue that it is not.</p>
-
-    <p class="pullquote">The health claim on the front of the box exists in inverse proportion to the health inside it.</p>
-
-    <p>The consequences are not abstract. Rates of obesity, type-2 diabetes, fatty liver, depression, infertility and the quiet epidemic of low energy and mental fog have all climbed in near-perfect step with the share of the diet made up of ultra-processed food. Correlation is not proof, but when the same curve repeats across every country that adopts the Western industrial diet — and reverses when people leave it — the honest response is not to keep waiting for a headline. It is to stop eating the product and start eating the food.</p>
-
-    <p>That is the entire premise of this guide. We are not selling a diet, a supplement line, a meal-delivery subscription or a fourteen-day transformation. We take no advertising and no affiliate commissions, which means we have no reason to tell you that a particular yogurt is healthy when it carries more sugar than a chocolate bar. Our only position is this: <strong>the closer a food is to the state it existed in on a farm, the better it tends to be for you</strong> — and almost everything you need to eat that way is already sitting in the store you shop at, usually around the outer walls, often cheaper than the branded imitations two aisles in.</p>
-
-    <p>What follows is organised the way you would actually use it. There is a directory of <strong>141 real grocery stores across seven regions</strong>, with a note on what to reach for in each. There is a blunt list of what to avoid no matter what the packaging promises, and an exposé of the "health foods" and trusted brands that are quietly working against you. There is guidance on what to eat for genuine, measurable outcomes — steady energy, hormonal health, mental clarity — and a map of the world's real superfoods and where to buy them without paying a wellness-industry markup. And because eating well is a practical problem, not a moral one, there is a budget calculator, a list of clean everyday-hygiene products, and a directory of free, safe drinking water.</p>
-
-    <p>Read it in any order. But read the next part first, because everything else rests on it.</p>
+    <p class="dropcap">Most of what fills a modern supermarket was engineered to be bought, not to nourish you — refined starch, industrial seed oil and added sugar, dressed up in packaging that sells the very health it destroyed. "Natural," "made with whole grain," "a good source of fibre": the loudest health claims sit on the products that need them most. Meanwhile the food that has actually kept humans alive for millennia sits quietly around the edges of the store, usually cheaper, with no marketing budget at all.</p>
+    <p>You already sense this. What you don't have is the time to decode every label, cross-check every brand, and figure out what's worth buying at the specific store near you. That is the entire job this guide does for you — once, thoroughly, so you never have to think about it in the aisle again.</p>
+    <p class="pullquote">A tomato has no marketing budget. Neither does a lamb chop, a dozen pastured eggs, or a tin of sardines. This is the guide to the quiet corner of the store where your health has always been.</p>
   </div>
 </section>
 
-<!-- ================= THE DOCTRINE / PRINCIPLES ================= -->
-<section class="invert">
+<!-- ================= WHAT'S INSIDE ================= -->
+<section id="inside" class="invert">
   <div class="wrap">
     <div class="section-head">
       <span class="num">01</span>
-      <h2>Seven rules that replace a thousand diets</h2>
-      <p class="section-sub">Memorise these and you can throw away every trend that will be sold to you next year. None of them require an app, a subscription, or a single word on a package.</p>
+      <h2>Five guides. One system.</h2>
+      <p class="section-sub">Not an article and not a loose PDF — a structured, interlinked system you'll come back to every shopping trip. Here is everything inside.</p>
     </div>
-    <ol class="enum">
-      <li>
-        <h3>Shop the edges of the store</h3>
-        <p>Meat, fish, eggs, dairy and produce live on the perimeter. The centre aisles are where food goes to be turned into product. Spend ninety per cent of your money and time around the walls.</p>
-      </li>
-      <li>
-        <h3>If it has an ingredient list longer than your hand, put it back</h3>
-        <p>Real food is mostly one ingredient. A short list of things you recognise is fine. A long list of things you cannot pronounce is a formulation, not a meal.</p>
-      </li>
-      <li>
-        <h3>Eat the animal, not the imitation of it</h3>
-        <p>Ruminant meat, eggs and fish are the most nutrient-dense foods available to a human. Nothing engineered in a factory to look like them is an upgrade. It is a cost-cutting substitute wearing a health costume.</p>
-      </li>
-      <li>
-        <h3>Fat is not the enemy; refined seed oil is</h3>
-        <p>Butter, tallow, ghee, olive oil and coconut oil have fed humans for millennia. Industrial seed oils — soybean, canola, "vegetable" — are a twentieth-century invention. Cook with the old fats.</p>
-      </li>
-      <li>
-        <h3>Sugar is the constant, under every alias</h3>
-        <p>It hides as cane juice, corn syrup, "fruit concentrate," maltodextrin, dextrose and thirty other names. The dose is what matters, and the dose in processed food is enormous. Track it and it collapses.</p>
-      </li>
-      <li>
-        <h3>Buy the cheapest version of the real thing before the expensive version of the fake thing</h3>
-        <p>Conventional eggs beat a "plant-based" egg substitute. Regular ground beef beats an ultra-processed meat analogue. Clean eating is not a rich person's hobby; the base ingredients are among the cheapest calories in the store.</p>
-      </li>
-      <li>
-        <h3>Distrust the health claim, trust the ingredient list</h3>
-        <p>The front of the package is marketing. The back is the law. When they disagree — and they usually do — the back is telling the truth.</p>
-      </li>
-    </ol>
+    <div class="grid cols-2 frame" style="border-color:rgba(250,249,244,0.28);">
+      <div class="tile"><span class="idx">GUIDE 01 · THE DOCTRINE</span><h3>The seven rules</h3><p>A plain-spoken foundation on why real food became hard to find, and the seven principles that replace every diet trend you'll ever be sold.</p></div>
+      <div class="tile"><span class="idx">GUIDE 02 · THE DIRECTORY</span><h3>141 stores worldwide</h3><p>Searchable and filterable by region and price. For every chain: what to buy, its clean private-label line, and a practical field note.</p></div>
+      <div class="tile"><span class="idx">GUIDE 03 · THE BLACKLIST</span><h3>What to avoid</h3><p>The non-negotiables, a decoder for the 60 hidden names of sugar and seed oil, and a dozen fake-healthy foods pulled apart.</p></div>
+      <div class="tile"><span class="idx">GUIDE 04 · THE PROTOCOL</span><h3>Eat to optimise</h3><p>What to eat for steady energy, hormonal health and testosterone, and mental clarity — plus a sourcing map of 25+ real superfoods.</p></div>
+      <div class="tile"><span class="idx">GUIDE 05 · THE TOOLKIT</span><h3>Budget · water · hygiene</h3><p>A live budget calculator, a directory of free clean-water sources, and a clean everyday hygiene-and-body-care list.</p></div>
+      <div class="tile"><span class="idx">BUILT IN</span><h3>Yours for life</h3><p>Buy once, keep forever, on any device. Free updates as stores, brands and sourcing change. No subscription, no upsell.</p></div>
+    </div>
   </div>
 </section>
 
-<!-- ================= CROSSLINKS ================= -->
-<section>
+<!-- ================= THE TOOLS (anti-PDF angle) ================= -->
+<section id="tools">
   <div class="wrap">
     <div class="section-head">
       <span class="num">02</span>
-      <h2>Where to go from here</h2>
-      <p class="section-sub">Five guides, each one self-contained. Start wherever your kitchen needs the most help.</p>
+      <h2>The part a PDF could never do</h2>
+      <p class="section-sub">This isn't a document you skim once and lose. It's a working tool you use standing in the aisle, on your phone.</p>
     </div>
-    <div class="crosslinks">
-      <a href="stores.html">
-        <span class="arrow">→</span>
-        <p class="kicker">The Directory</p>
-        <h3>141 Stores Worldwide</h3>
-        <p>Every major and specialty chain across seven regions, with what to buy at each.</p>
-      </a>
-      <a href="avoid.html">
-        <span class="arrow">→</span>
-        <p class="kicker">The Blacklist</p>
-        <h3>What to Avoid</h3>
-        <p>The non-negotiables, the secret ingredients, and the fake-healthy brands exposed.</p>
-      </a>
-      <a href="optimize.html">
-        <span class="arrow">→</span>
-        <p class="kicker">The Protocol</p>
-        <h3>Eat to Optimise</h3>
-        <p>Food for energy, testosterone and mental clarity — plus the superfood sourcing map.</p>
-      </a>
-      <a href="tools.html">
-        <span class="arrow">→</span>
-        <p class="kicker">The Toolkit</p>
-        <h3>Budget · Water · Hygiene</h3>
-        <p>A real-food budget calculator, free clean-water sources, and a clean-product list.</p>
-      </a>
-      <a href="stores.html#directory">
-        <span class="arrow">→</span>
-        <p class="kicker">Quick Start</p>
-        <h3>Find Your Store</h3>
-        <p>Search by name or filter by region and price to build this week's shopping list.</p>
-      </a>
-      <a href="avoid.html#superfoods-note">
-        <span class="arrow">→</span>
-        <p class="kicker">The Point</p>
-        <h3>Read This If Nothing Else</h3>
-        <p>The single page that will change more about your health than any supplement.</p>
-      </a>
+    <div class="grid cols-2 frame">
+      <div class="tile"><span class="idx">INTERACTIVE</span><h3>Search 141 stores instantly</h3><p>Type your store's name or filter by region and price, and get the answer to the only question that matters — <em>what do I actually buy here?</em> — in one tap.</p></div>
+      <div class="tile"><span class="idx">INTERACTIVE</span><h3>The live budget calculator</h3><p>Set your household size and sourcing tier and see a real weekly and monthly cost, live. Plan the grocery bill instead of fearing it.</p></div>
+      <div class="tile"><span class="idx">REFERENCE</span><h3>The ingredient decoder</h3><p>A pocket codebook that turns the fine print — "cane juice," "vegetable oil," "natural flavours" — back into plain English while you shop.</p></div>
+      <div class="tile"><span class="idx">REFERENCE</span><h3>The superfood sourcing map</h3><p>25+ genuinely nutrient-dense foods with exactly where to buy each cheaply — no wellness-aisle markup, no supplement upsell.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ================= STATS BAND ================= -->
-<section class="invert" style="padding-top:clamp(30px,4vw,54px);padding-bottom:clamp(30px,4vw,54px);">
+<!-- ================= WHO IT'S FOR ================= -->
+<section class="invert">
   <div class="wrap">
-    <div class="grid cols-4 frame">
-      <div class="tile"><span class="idx">DIRECTORY</span><h3>141</h3><p>real grocery stores vetted across 7 world regions.</p></div>
-      <div class="tile"><span class="idx">BLACKLIST</span><h3>30+</h3><p>hidden ingredients and fake-healthy products named and explained.</p></div>
-      <div class="tile"><span class="idx">SUPERFOODS</span><h3>25+</h3><p>genuine nutrient-dense foods with where to source each.</p></div>
-      <div class="tile"><span class="idx">INDEPENDENCE</span><h3>$0</h3><p>in advertising or affiliate money. We answer to no brand.</p></div>
+    <div class="section-head">
+      <span class="num">03</span>
+      <h2>Who it's for</h2>
     </div>
+    <dl class="deflist" style="border-color:rgba(250,249,244,0.5);">
+      <div class="row" style="border-color:rgba(250,249,244,0.25);"><dt>The overwhelmed</dt><dd>You want to eat well but the label-reading, the conflicting advice and the price of it all is exhausting. This makes the decision once, for good.</dd></div>
+      <div class="row" style="border-color:rgba(250,249,244,0.25);"><dt>The optimiser</dt><dd>You already train and care about sleep, hormones and focus, and you want your grocery cart to actually match the effort.</dd></div>
+      <div class="row" style="border-color:rgba(250,249,244,0.25);"><dt>The budget-conscious</dt><dd>You've been told real food is expensive. This proves it isn't — and shows you the cheapest version of the real thing at every store.</dd></div>
+      <div class="row" style="border-color:rgba(250,249,244,0.25);"><dt>The traveller &amp; expat</dt><dd>You move between countries and want a straight answer to "where do I shop and what do I buy" on any continent.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">04</span>
+      <h2>One payment. Everything. Forever.</h2>
+      <p class="section-sub">No subscription, no tiers, no upsell. Pay once and the entire system is yours for life, on every device.</p>
+    </div>
+
+    <div class="price-wrap">
+      <div class="price-left">
+        <h3>The complete NonSlop system</h3>
+        <p style="color:var(--muted);margin-bottom:22px;">Everything below, unlocked the moment you buy:</p>
+        <ul class="checklist">
+          <li>All five in-depth guides</li>
+          <li>The searchable 141-store directory</li>
+          <li>The live real-food budget calculator</li>
+          <li>The hidden-ingredient &amp; fake-brand decoder</li>
+          <li>Food for hormones, testosterone &amp; clarity</li>
+          <li>The 25+ superfood sourcing map</li>
+          <li>Free clean-water &amp; clean-hygiene guides</li>
+          <li>Lifetime access &amp; free updates</li>
+        </ul>
+      </div>
+      <div class="price-right">
+        <div class="amount"><span class="cur">$</span>50</div>
+        <div class="once">One-time · Lifetime access</div>
+        <!-- ▼▼▼ REPLACE href BELOW WITH YOUR CHECKOUT URL (Payhip / Gumroad / Stripe). See SETUP.md ▼▼▼ -->
+        <a class="btn btn-lg" id="buyBtn" href="#">Get instant access →</a>
+        <!-- ▲▲▲ REPLACE href ABOVE ▲▲▲ -->
+        <p class="fine">Secure checkout · Instant access on purchase · 14-day money-back guarantee. One-time payment, no recurring charges.</p>
+      </div>
+    </div>
+    <p class="disclaimer" style="margin-top:20px;">Educational content only — not medical, dietary, or safety advice. Store sourcing and labelling change over time; verify grass-fed, organic and wild-caught claims locally. The money-back guarantee shown above is a suggested policy — set your own terms in your checkout platform.</p>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="narrow">
+    <div class="section-head" style="grid-template-columns:1fr;">
+      <p class="kicker">Questions</p>
+      <h2>Straight answers</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>What exactly do I get for $50?</summary>
+        <div class="a">Lifetime access to the complete NonSlop system: five interlinked guides, the searchable 141-store worldwide directory, the live budget calculator, the ingredient-and-brand decoder, the superfood sourcing map, and the clean-water and hygiene guides. One payment, no subscription.</div>
+      </details>
+      <details>
+        <summary>Is this just a PDF?</summary>
+        <div class="a">No. It's an interactive, always-accessible tool you use on your phone in the store — you can search stores, filter by region and price, and run the budget calculator live. Those things simply can't exist in a static file, and they're the reason this is worth the price.</div>
+      </details>
+      <details>
+        <summary>How is it delivered?</summary>
+        <div class="a">The moment you buy, you get access to the members area on any device — phone, tablet or computer. Nothing to install. You can use it anywhere you shop.</div>
+      </details>
+      <details>
+        <summary>Will it work for my country?</summary>
+        <div class="a">The directory covers 141 stores across North America, the UK &amp; Ireland, Europe, the Middle East, Asia-Pacific, Latin America and Africa — plus universal principles that work in any store, anywhere, even one that isn't listed.</div>
+      </details>
+      <details>
+        <summary>Is this medical or diet advice?</summary>
+        <div class="a">No. It's an educational guide to buying real food and reading labels honestly. It isn't a treatment, a meal plan, or a substitute for professional advice. If you have a medical condition, allergy, or are pregnant, talk to a qualified professional.</div>
+      </details>
+      <details>
+        <summary>What if it isn't for me?</summary>
+        <div class="a">The guide is backed by a money-back guarantee — if it isn't useful, request a refund within the guarantee window. (Set your exact refund terms in your checkout platform.)</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="invert" style="text-align:center;">
+  <div class="narrow">
+    <p class="kicker" style="margin-bottom:18px;">Stop guessing. Start shopping.</p>
+    <h2 style="font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:20px;">Everything the food industry hopes you never learn — for less than a week of takeout.</h2>
+    <div class="cta-row" style="justify-content:center;">
+      <a class="btn btn-lg" href="#pricing">Get instant access <span class="price-badge">$50</span></a>
+    </div>
+    <p class="cta-note" style="margin-top:16px;">One-time payment · Lifetime access · 14-day money-back guarantee</p>
   </div>
 </section>
 
@@ -203,19 +249,16 @@
         <p>An independent field guide to buying real food anywhere in the world. No sponsors, no affiliate links, no supplement store attached. Just the ingredient list, read honestly.</p>
       </div>
       <div>
-        <h4>The Guides</h4>
-        <a href="index.html">Home &amp; Doctrine</a>
-        <a href="stores.html">Store Directory</a>
-        <a href="avoid.html">What to Avoid</a>
-        <a href="optimize.html">Eat to Optimise</a>
-        <a href="tools.html">Budget · Water · Hygiene</a>
+        <h4>The System</h4>
+        <a href="#inside">What's inside</a>
+        <a href="#tools">The interactive tools</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
       </div>
       <div>
-        <h4>The Principle</h4>
-        <a href="#manifesto">Shop the edges</a>
-        <a href="avoid.html">Trust the ingredient list</a>
-        <a href="optimize.html">Eat the animal, not the imitation</a>
-        <a href="tools.html">Real food is cheaper than fake food</a>
+        <h4>Get Access</h4>
+        <a href="#pricing">Buy — $50 lifetime</a>
+        <a href="guide.html">Members sign-in</a>
       </div>
     </div>
     <div class="foot-legal">
