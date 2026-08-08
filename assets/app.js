@@ -136,6 +136,7 @@
         if(!soundBtn) return;
         var muted = snd ? snd.isMuted() : true;
         soundBtn.classList.toggle('muted', muted);
+        soundBtn.classList.toggle('pending', !!snd && !snd.ready() && !muted);
         soundBtn.lastChild.textContent = muted ? ' Muted' : ' Sound';
       }
       if(soundBtn){
@@ -154,44 +155,30 @@
 
       var skip = document.getElementById('introSkip');
       if(skip) skip.addEventListener('click', function(e){ e.stopPropagation(); endIntro(); });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') endIntro(); });
 
-      /* the timeline — only runs after the visitor presses Begin (audio unlock) */
-      function runTimeline(){
-        var line1;
-        at(140,  function(){ line1 = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
-        at(1450, function(){ outLine(line1); });
-        at(1650, function(){ showBuzz('All&nbsp;natural.'); });
-        at(2250, function(){ showBuzz('Low&nbsp;fat.'); });
-        at(2850, function(){ showBuzz('Multigrain.'); });
-        at(3500, function(){ if(snd) snd.riser(1.15); });
-        at(3650, function(){ var l = showLine('In every aisle.'); at(900, function(){ outLine(l); }); });
-        at(4800, function(){ showLogo(); });
-        at(6050, function(){ endIntro(); });
+      /* unlock audio on the visitor's first interaction (browsers block it before that) */
+      var unlockEvents = ['pointerdown','keydown','touchstart','click','wheel'];
+      function unlock(){
+        if(snd) snd.resume().then(updateSoundBtn);
+        unlockEvents.forEach(function(ev){ window.removeEventListener(ev, unlock); });
       }
+      unlockEvents.forEach(function(ev){ window.addEventListener(ev, unlock, { passive:true }); });
 
-      var started = false;
-      var enterLayer = document.getElementById('introEnter');
-      function begin(){
-        if(started || ended) return; started = true;
-        if(snd) snd.resume().then(updateSoundBtn);   // the click IS the audio-unlock gesture
-        if(enterLayer) enterLayer.classList.add('hide');
-        intro.classList.add('go');                    // starts the progress bar
-        updateSoundBtn();
-        runTimeline();
-      }
-
-      /* click anywhere on the entry screen begins with sound */
-      if(enterLayer) enterLayer.addEventListener('click', begin);
-      var enterSkip = document.getElementById('enterSkip');
-      if(enterSkip) enterSkip.addEventListener('click', function(e){ e.stopPropagation(); endIntro(); });
-      document.addEventListener('keydown', function(e){
-        if(e.key === 'Escape'){ endIntro(); }
-        else if(!started && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); begin(); }
-      });
-
-      /* arm the overlay (show the entry screen); the sequence waits for Begin */
+      /* auto-play immediately */
       document.body.classList.add('intro-lock');
-      intro.classList.add('play');
+      intro.classList.add('play','go');
+
+      var line1;
+      at(140,  function(){ line1 = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
+      at(1450, function(){ outLine(line1); });
+      at(1650, function(){ showBuzz('All&nbsp;natural.'); });
+      at(2250, function(){ showBuzz('Low&nbsp;fat.'); });
+      at(2850, function(){ showBuzz('Multigrain.'); });
+      at(3500, function(){ if(snd) snd.riser(1.15); });
+      at(3650, function(){ var l = showLine('In every aisle.'); at(900, function(){ outLine(l); }); });
+      at(4800, function(){ showLogo(); });
+      at(6050, function(){ endIntro(); });
     }
   }
 
