@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools — Budget Calculator, Clean Water &amp; Hygiene | NonSlop</title>
+<meta name="description" content="A real-food budget calculator, a directory of free and low-cost clean drinking-water sources, and a list of clean everyday hygiene and body-care products.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <a class="brand" href="index.html">
+      <span class="logo">Non<span class="amp">·</span>Slop</span>
+      <span class="est">The Grocery Navigator</span>
+    </a>
+    <button class="nav-toggle" id="navToggle">Menu</button>
+    <nav class="nav" id="primaryNav">
+      <a href="index.html">Home</a>
+      <a href="stores.html">Stores</a>
+      <a href="avoid.html">What to Avoid</a>
+      <a href="optimize.html">Optimize</a>
+      <a href="tools.html" class="active">Tools</a>
+    </nav>
+  </div>
+  <div class="masthead-strip">
+    <div class="wrap">
+      <span>The Toolkit</span>
+      <span>Budget · Water · Hygiene</span>
+      <span>The practical half</span>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="dateline">
+      <span class="kicker">The Toolkit</span>
+      <span class="mono" style="font-size:0.72rem;color:var(--muted);">Section 04 · Make it work in real life</span>
+    </div>
+    <h1>Eating well is<br>a practical<br>problem.</h1>
+    <p class="lede sub">Cost it out, find water you can trust, and clean up the products that touch your skin every day. The moral case for real food is already made — this is the logistics.</p>
+  </div>
+</section>
+
+<!-- ============ BUDGET CALCULATOR ============ -->
+<section id="budget">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">01</span>
+      <h2>The real-food budget calculator</h2>
+      <p class="section-sub">A working estimate of what a whole-food diet costs, so you can plan instead of guess. Set your household size and sourcing tier; the ledger updates live. Figures are a US-dollar baseline — adjust up or down for your country and local prices.</p>
+    </div>
+
+    <div class="calc">
+      <div class="inputs">
+        <div class="field">
+          <label for="household">People in household</label>
+          <input type="number" id="household" value="2" min="1" max="12">
+        </div>
+        <div class="field">
+          <label>Sourcing tier</label>
+          <div class="seg" id="tierToggle">
+            <button data-tier="budget">Budget</button>
+            <button data-tier="mid" class="on">Standard</button>
+            <button data-tier="premium">Premium</button>
+          </div>
+        </div>
+        <p class="ledger-note"><strong>Budget:</strong> conventional cuts, sale meat, tinned fish, frozen produce, bulk staples.<br>
+        <strong>Standard:</strong> a mix — some grass-fed and organic, pastured eggs, fresh produce.<br>
+        <strong>Premium:</strong> mostly grass-fed / pasture-raised / organic and wild-caught throughout.</p>
+      </div>
+      <div class="ledger">
+        <p class="kicker" style="margin-bottom:16px;">Estimated cost</p>
+        <div id="ledger"></div>
+        <p class="ledger-note">Estimates only, based on typical whole-food prices. Real cost depends on where you shop, what's on sale, and how much you cook from scratch. The single biggest lever is cooking rather than buying prepared food — see the savings notes below.</p>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="grid cols-3 frame">
+      <div class="tile"><span class="idx">SAVE</span><h3>Buy the whole animal cheap</h3><p>Chuck, whole chicken, organ meats, tinned fish and eggs are the lowest cost-per-nutrient in the store. Steak is optional; nutrition is not.</p></div>
+      <div class="tile"><span class="idx">SAVE</span><h3>Frozen &amp; bulk</h3><p>Frozen produce and wild fish are cheaper and just as nutritious. Buy nuts, oats and rice from bulk bins, not branded boxes.</p></div>
+      <div class="tile"><span class="idx">SAVE</span><h3>Cook it yourself</h3><p>The markup on prepared and packaged food is enormous. An hour of batch cooking on the weekend is the highest-paid hour of your week.</p></div>
+      <div class="tile"><span class="idx">SAVE</span><h3>Warehouse &amp; discount</h3><p>Costco, Aldi, Lidl and WinCo carry clean staples at the lowest prices. Split a bulk pack with a friend to skip the storage problem.</p></div>
+      <div class="tile"><span class="idx">SAVE</span><h3>Eat the reductions</h3><p>Meat marked down near its sell-by date is perfect for the freezer. Plan meals around what's discounted, not the other way round.</p></div>
+      <div class="tile"><span class="idx">SAVE</span><h3>Drink water, not calories</h3><p>Cutting soda, juice, sports drinks and alcohol often pays for the entire upgrade to better meat and eggs on its own.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLEAN WATER ============ -->
+<section id="water" class="invert">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">02</span>
+      <h2>Free &amp; clean drinking water</h2>
+      <p class="section-sub">Clean water matters as much as clean food, and it should not cost a fortune in single-use bottles. Here is where to get safe water for free or nearly free — and how to make the water you already have cleaner.</p>
+    </div>
+
+    <div class="grid cols-2 frame" style="border-color:rgba(250,249,244,0.28);">
+      <div class="tile"><span class="idx">FREE · MAPPED</span><h3>Natural springs</h3><p>Find a vetted, tested natural spring near you through community spring-finder maps (search "find a spring"). Bring your own glass or stainless containers. <em>Confirm each spring is tested and currently safe before drinking.</em></p></div>
+      <div class="tile"><span class="idx">FREE · APP</span><h3>Public refill stations</h3><p>Refill apps and networks map free public water-bottle refill points in most cities — libraries, parks, transit hubs, cafés. Carry a reusable bottle and use them.</p></div>
+      <div class="tile"><span class="idx">FREE</span><h3>Public drinking fountains</h3><p>Parks, government buildings, universities and gyms almost always have free, potable fountains. In most developed countries this water is tested and safe.</p></div>
+      <div class="tile"><span class="idx">LOW COST</span><h3>Supermarket refill dispensers</h3><p>Many grocers (Whole Foods, co-ops, and reverse-osmosis kiosks like those out front of US supermarkets) refill your own jug for a few cents a litre.</p></div>
+      <div class="tile"><span class="idx">KNOW FIRST</span><h3>Test your tap</h3><p>In much of the world tap water is safe and free. Read your utility's annual water-quality report, or use a cheap home test kit for lead, chlorine and hardness before assuming you need to buy anything.</p></div>
+      <div class="tile"><span class="idx">UPGRADE</span><h3>Filter what you have</h3><p>A carbon filter (jug or tap-mount) cuts chlorine and taste cheaply. Reverse osmosis removes far more (add trace minerals or a pinch of salt back). A good filter pays for itself against bottled water in weeks.</p></div>
+      <div class="tile"><span class="idx">TRAVEL</span><h3>Boil, or use a portable filter</h3><p>Where tap water is not safe, a rolling boil for one minute makes it drinkable, and a portable filter bottle (0.1-micron or better) handles most pathogens on the move.</p></div>
+      <div class="tile"><span class="idx">MINERALS</span><h3>Natural mineral water</h3><p>Genuine mineral water is a cheap source of magnesium and calcium. Read the label for the mineral content — the point is the minerals, not the branding.</p></div>
+    </div>
+    <p class="disclaimer" style="border-color:rgba(250,249,244,0.4);color:#c9c6bd;">Water safety is local. Never assume a spring, well or foreign tap is safe without a current test or local confirmation. When unsure, filter and boil, or use a sealed source.</p>
+  </div>
+</section>
+
+<!-- ============ HYGIENE ============ -->
+<section id="hygiene">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">03</span>
+      <h2>Clean everyday hygiene &amp; body care</h2>
+      <p class="section-sub">Skin is not a barrier that keeps everything out — a good deal of what you rub on it and wash with ends up in you. The same principle as food applies: short ingredient lists, and skip the handful of additives worth avoiding. This is guidance on <em>categories</em>, not brand endorsement.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Product</th><th>What to skip on the label</th><th>What to choose instead</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Toothpaste</strong></td><td>Artificial dyes, sodium lauryl sulfate (SLS) if it irritates you, high-intensity artificial sweeteners.</td><td>A simple fluoride or hydroxyapatite paste with a short ingredient list. The formula matters more than the marketing.</td></tr>
+          <tr><td><strong>Deodorant</strong></td><td>Heavy synthetic fragrance ("parfum") if you react to it; overwrought "detox" claims.</td><td>A simple deodorant that works for you; many do well with baking-soda or magnesium-based formulas. Antiperspirant vs. deodorant is a personal call — pick on how your body responds.</td></tr>
+          <tr><td><strong>Soap &amp; body wash</strong></td><td>Long lists of synthetic fragrance, dyes and harsh sulfates that leave skin stripped.</td><td>A plain bar soap — olive, tallow or goat-milk based — with a handful of recognisable ingredients.</td></tr>
+          <tr><td><strong>Shampoo</strong></td><td>Heavy fragrance loads and dyes; over-stripping sulfates if your scalp is dry.</td><td>A gentle shampoo with a shorter list. Wash less often; most hair does not need daily detergent.</td></tr>
+          <tr><td><strong>Moisturiser &amp; lotion</strong></td><td>Synthetic fragrance and long filler lists.</td><td>Single-ingredient options work beautifully: shea butter, tallow balm, jojoba, or cold-pressed olive/coconut oil.</td></tr>
+          <tr><td><strong>Sunscreen</strong></td><td>—</td><td>Mineral (zinc oxide / titanium dioxide) sunscreens sit on top of the skin and are a sensible default. Sun sense — timing and shade — does the rest.</td></tr>
+          <tr><td><strong>Lip balm</strong></td><td>Artificial flavour and colour, petroleum-heavy fillers.</td><td>Beeswax-based balms with oils you recognise (shea, coconut, olive).</td></tr>
+          <tr><td><strong>Deodorant soap for hands</strong></td><td>"Antibacterial" triclosan-type additives you don't need for everyday washing.</td><td>Plain soap and water. It is as effective for daily use and far simpler.</td></tr>
+          <tr><td><strong>Laundry &amp; dish detergent</strong></td><td>Heavy synthetic fragrance and dyes that stay on clothes and dishes against your skin.</td><td>Fragrance-free / "free &amp; clear" versions. Your clothes touch you all day; treat them like food contact.</td></tr>
+          <tr><td><strong>Menstrual / intimate products</strong></td><td>Added fragrance and dyes.</td><td>Unscented, or organic-cotton options. This is sensitive tissue — simpler is better.</td></tr>
+          <tr><td><strong>Razors &amp; shaving</strong></td><td>Foaming creams with long synthetic lists and heavy fragrance.</td><td>A simple shaving oil or soap; even plain coconut oil works. Fewer ingredients, less irritation.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="disclaimer">General guidance for choosing simpler products, not medical or safety advice. "Natural" is not automatically safer and "synthetic" is not automatically harmful — the point is a short, legible ingredient list and skipping the few additives you personally react to. If you have a skin condition or allergy, follow a dermatologist's advice over any list.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="crosslinks">
+      <a href="index.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Start over</p>
+        <h3>The doctrine</h3>
+        <p>The seven rules that replace a thousand diets.</p>
+      </a>
+      <a href="stores.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Go shopping</p>
+        <h3>141 stores worldwide</h3>
+        <p>Find your store and what to buy in it.</p>
+      </a>
+      <a href="optimize.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Fill the cart</p>
+        <h3>Eat to optimise</h3>
+        <p>Energy, hormones, clarity, and the superfood map.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">Non·Slop</div>
+        <p>An independent field guide to buying real food anywhere in the world. No sponsors, no affiliate links, no supplement store attached.</p>
+      </div>
+      <div>
+        <h4>The Guides</h4>
+        <a href="index.html">Home &amp; Doctrine</a>
+        <a href="stores.html">Store Directory</a>
+        <a href="avoid.html">What to Avoid</a>
+        <a href="optimize.html">Eat to Optimise</a>
+        <a href="tools.html">Budget · Water · Hygiene</a>
+      </div>
+      <div>
+        <h4>On This Page</h4>
+        <a href="#budget">Budget calculator</a>
+        <a href="#water">Free clean water</a>
+        <a href="#hygiene">Clean hygiene products</a>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span>© <span data-year></span> The NonSlop Grocery Navigator · Volume One</span>
+      <span>Educational only · Not medical advice · Verify sourcing locally</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Directory — 141 Real-Food Grocers Worldwide | NonSlop</title>
+<meta name="description" content="A searchable directory of 141 grocery stores across 7 world regions, with exactly what real food to buy at each and a practical field note.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <a class="brand" href="index.html">
+      <span class="logo">Non<span class="amp">·</span>Slop</span>
+      <span class="est">The Grocery Navigator</span>
+    </a>
+    <button class="nav-toggle" id="navToggle">Menu</button>
+    <nav class="nav" id="primaryNav">
+      <a href="index.html">Home</a>
+      <a href="stores.html" class="active">Stores</a>
+      <a href="avoid.html">What to Avoid</a>
+      <a href="optimize.html">Optimize</a>
+      <a href="tools.html">Tools</a>
+    </nav>
+  </div>
+  <div class="masthead-strip">
+    <div class="wrap">
+      <span>The Directory</span>
+      <span>141 Stores · 7 Regions</span>
+      <span>Tap any store to expand</span>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="dateline">
+      <span class="kicker">The Directory</span>
+      <span class="mono" style="font-size:0.72rem;color:var(--muted);">Section 01 · Worldwide</span>
+    </div>
+    <h1>141 stores.<br>Seven regions.<br>One shopping list.</h1>
+    <p class="lede sub">Wherever you live, there is almost certainly a store on this list within reach — and a short answer to the only question that matters: <em>what do I actually buy here?</em></p>
+  </div>
+</section>
+
+<section id="directory">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">→</span>
+      <h2>Find your store</h2>
+      <p class="section-sub">Search by name, or filter by region and price tier. Prices are relative within each country: <span class="mono">$</span> budget · <span class="mono">$$</span> mid · <span class="mono">$$$</span> premium.</p>
+    </div>
+
+    <div class="controls">
+      <div class="searchbar">
+        <span class="sb-label">SEARCH</span>
+        <input type="text" id="storeSearch" placeholder="Try “Costco”, “Carrefour”, “organic”, “Japan”…" autocomplete="off">
+      </div>
+      <div class="chiprow" id="regionChips"><span class="lab">Region</span></div>
+      <div class="chiprow" id="priceChips"><span class="lab">Price</span></div>
+    </div>
+
+    <div class="count" id="storeCount"></div>
+    <div class="store-grid" id="storeGrid"></div>
+
+    <p class="disclaimer">Guidance is general and reflects each chain's better-sourced lines and counters, not every product on its shelves. Sourcing, labelling and private-label ranges change — always confirm on the package and, where a claim matters to you (grass-fed, organic, wild-caught), verify locally. Inclusion is editorial, not an endorsement or a paid placement.</p>
+  </div>
+</section>
+
+<section class="invert">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">02</span>
+      <h2>How to read any store in ninety seconds</h2>
+      <p class="section-sub">The directory tells you where to go. This tells you how to move once you are inside, regardless of the chain.</p>
+    </div>
+    <div class="grid cols-3 frame">
+      <div class="tile"><span class="idx">01 · PERIMETER</span><h3>Walk the walls first</h3><p>Fill the cart with meat, eggs, fish, dairy and produce before you ever turn into a centre aisle. Most trips can end there.</p></div>
+      <div class="tile"><span class="idx">02 · THE COUNTER</span><h3>Talk to the butcher</h3><p>Counter staff will grind fresh, portion, and special-order organ meats and bones — usually cheaper than the pre-packed case.</p></div>
+      <div class="tile"><span class="idx">03 · PRIVATE LABEL</span><h3>Find the clean sub-brand</h3><p>Almost every chain has one honest organic/clean line — Simple Truth, SO Organic, Macro, Bio. Learn its name and lean on it.</p></div>
+      <div class="tile"><span class="idx">04 · UNIT PRICE</span><h3>Read the small number</h3><p>The price-per-pound or per-kilo on the shelf tag, not the sticker price, is how you actually compare value across brands.</p></div>
+      <div class="tile"><span class="idx">05 · FROZEN</span><h3>Frozen is not lesser</h3><p>Frozen wild fish and frozen produce are picked at peak and often cleaner and cheaper than tired "fresh" equivalents.</p></div>
+      <div class="tile"><span class="idx">06 · THE LIST</span><h3>Turn the package over</h3><p>Ignore the front entirely. If the ingredient list is short and legible, it stays. If not, it goes back on the shelf.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="crosslinks">
+      <a href="avoid.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Next</p>
+        <h3>What to leave on the shelf</h3>
+        <p>The blacklist, the hidden ingredients, and the fake-healthy brands.</p>
+      </a>
+      <a href="optimize.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Then</p>
+        <h3>What to fill the cart with</h3>
+        <p>Food for energy, hormones and clarity, and the superfood map.</p>
+      </a>
+      <a href="tools.html">
+        <span class="arrow">→</span>
+        <p class="kicker">Finally</p>
+        <h3>What it costs</h3>
+        <p>The budget calculator, clean water, and hygiene.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">Non·Slop</div>
+        <p>An independent field guide to buying real food anywhere in the world. No sponsors, no affiliate links, no supplement store attached.</p>
+      </div>
+      <div>
+        <h4>The Guides</h4>
+        <a href="index.html">Home &amp; Doctrine</a>
+        <a href="stores.html">Store Directory</a>
+        <a href="avoid.html">What to Avoid</a>
+        <a href="optimize.html">Eat to Optimise</a>
+        <a href="tools.html">Budget · Water · Hygiene</a>
+      </div>
+      <div>
+        <h4>Regions Covered</h4>
+        <a href="#directory">North America</a>
+        <a href="#directory">UK &amp; Ireland · Europe</a>
+        <a href="#directory">Middle East · Asia-Pacific</a>
+        <a href="#directory">Latin America · Africa</a>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span>© <span data-year></span> The NonSlop Grocery Navigator · Volume One</span>
+      <span>Educational only · Not medical advice · Verify sourcing locally</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/stores-data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
