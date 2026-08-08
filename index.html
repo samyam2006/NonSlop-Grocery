@@ -25,11 +25,19 @@
 <!-- ================= CINEMATIC COLD OPEN (JS-driven, plays once per session) ================= -->
 <div class="intro" id="intro" aria-hidden="true">
   <div class="intro-grain"></div>
+  <div class="intro-enter" id="introEnter">
+    <div class="enter-inner">
+      <div class="enter-mark">Non<span class="amp">·</span>Slop</div>
+      <span class="enter-pulse"><button class="enter-btn" id="enterBtn"><span class="tri"></span> Begin</button></span>
+      <div class="enter-sub">Best experienced with sound · 6 seconds</div>
+      <button class="enter-skip" id="enterSkip">Skip intro →</button>
+    </div>
+  </div>
   <div class="intro-stage">
     <div class="intro-slot" id="introSlot"></div>
   </div>
   <div class="intro-progress"></div>
-  <button class="intro-sound pending" id="introSound" aria-label="Toggle sound"><span class="dot"></span> Sound</button>
+  <button class="intro-sound" id="introSound" aria-label="Toggle sound"><span class="dot"></span> Sound</button>
   <button class="intro-skip" id="introSkip">Skip →</button>
 </div>
 

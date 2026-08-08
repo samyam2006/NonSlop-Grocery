@@ -501,8 +501,34 @@ body.intro-lock{overflow:hidden;}
 .intro-logo.show .tag{opacity:1;transform:none;}
 
 .intro-progress{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--white);z-index:4;}
-.intro.play .intro-progress{animation:introBar 6s linear forwards;}
+.intro.go .intro-progress{animation:introBar 6s linear forwards;}
 @keyframes introBar{from{width:0;}to{width:100%;}}
+
+/* entry gate — the one click that unlocks sound */
+.intro-enter{position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;}
+.intro-enter.hide{opacity:0;pointer-events:none;transition:opacity .45s ease;}
+.enter-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:22px;padding:24px;}
+.enter-mark{font-family:var(--display);font-weight:900;font-size:clamp(2.2rem,7vw,4.6rem);letter-spacing:-0.02em;opacity:0.92;
+  animation:enterFloat 3s ease-in-out infinite;}
+.enter-mark .amp{font-style:italic;font-weight:500;}
+@keyframes enterFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.enter-btn{display:inline-flex;align-items:center;gap:13px;background:var(--paper);color:var(--ink);
+  border:2px solid var(--paper);font-family:var(--sans);font-weight:700;font-size:0.9rem;letter-spacing:0.14em;
+  text-transform:uppercase;padding:16px 34px;cursor:pointer;transition:transform .12s ease;}
+.enter-btn:hover{transform:translateY(-2px);}
+.enter-btn .tri{width:0;height:0;border-left:12px solid currentColor;border-top:8px solid transparent;border-bottom:8px solid transparent;}
+.enter-btn::after{content:"";position:absolute;}
+.enter-pulse{position:relative;}
+.enter-pulse::before{content:"";position:absolute;inset:-10px;border:1px solid rgba(250,249,244,0.4);
+  animation:enterPulse 1.8s ease-out infinite;pointer-events:none;}
+@keyframes enterPulse{0%{opacity:.7;transform:scale(1);}100%{opacity:0;transform:scale(1.25);}}
+.enter-sub{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted-2);}
+.enter-skip{margin-top:6px;background:none;border:none;color:var(--muted-2);font-family:var(--sans);
+  font-size:0.74rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;
+  border-bottom:1px solid transparent;padding-bottom:2px;}
+.enter-skip:hover{color:var(--white);border-color:var(--white);}
+/* keep the bottom controls hidden until the sequence is running */
+.intro:not(.go) .intro-sound,.intro:not(.go) .intro-skip{display:none;}
 
 .intro-skip{
   position:absolute;bottom:24px;right:26px;z-index:5;background:none;border:1px solid rgba(250,249,244,0.35);

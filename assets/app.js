@@ -130,24 +130,12 @@
         setTimeout(function(){ if(node && node.parentNode) node.parentNode.removeChild(node); }, 840);
       }
 
-      /* audio unlock on first gesture */
-      function unlock(){
-        if(snd) snd.resume().then(updateSoundBtn);
-        window.removeEventListener('pointerdown', unlock);
-        window.removeEventListener('keydown', unlock);
-        window.removeEventListener('touchstart', unlock);
-      }
-      window.addEventListener('pointerdown', unlock);
-      window.addEventListener('keydown', unlock);
-      window.addEventListener('touchstart', unlock);
-
-      /* sound toggle */
+      /* sound toggle (available once the sequence is running) */
       var soundBtn = document.getElementById('introSound');
       function updateSoundBtn(){
         if(!soundBtn) return;
         var muted = snd ? snd.isMuted() : true;
         soundBtn.classList.toggle('muted', muted);
-        soundBtn.classList.toggle('pending', !!snd && !snd.ready() && !muted);
         soundBtn.lastChild.textContent = muted ? ' Muted' : ' Sound';
       }
       if(soundBtn){
@@ -166,22 +154,44 @@
 
       var skip = document.getElementById('introSkip');
       if(skip) skip.addEventListener('click', function(e){ e.stopPropagation(); endIntro(); });
-      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') endIntro(); });
 
-      /* the timeline */
+      /* the timeline — only runs after the visitor presses Begin (audio unlock) */
+      function runTimeline(){
+        var line1;
+        at(140,  function(){ line1 = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
+        at(1450, function(){ outLine(line1); });
+        at(1650, function(){ showBuzz('All&nbsp;natural.'); });
+        at(2250, function(){ showBuzz('Low&nbsp;fat.'); });
+        at(2850, function(){ showBuzz('Multigrain.'); });
+        at(3500, function(){ if(snd) snd.riser(1.15); });
+        at(3650, function(){ var l = showLine('In every aisle.'); at(900, function(){ outLine(l); }); });
+        at(4800, function(){ showLogo(); });
+        at(6050, function(){ endIntro(); });
+      }
+
+      var started = false;
+      var enterLayer = document.getElementById('introEnter');
+      function begin(){
+        if(started || ended) return; started = true;
+        if(snd) snd.resume().then(updateSoundBtn);   // the click IS the audio-unlock gesture
+        if(enterLayer) enterLayer.classList.add('hide');
+        intro.classList.add('go');                    // starts the progress bar
+        updateSoundBtn();
+        runTimeline();
+      }
+
+      /* click anywhere on the entry screen begins with sound */
+      if(enterLayer) enterLayer.addEventListener('click', begin);
+      var enterSkip = document.getElementById('enterSkip');
+      if(enterSkip) enterSkip.addEventListener('click', function(e){ e.stopPropagation(); endIntro(); });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){ endIntro(); }
+        else if(!started && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); begin(); }
+      });
+
+      /* arm the overlay (show the entry screen); the sequence waits for Begin */
       document.body.classList.add('intro-lock');
       intro.classList.add('play');
-
-      var line1;
-      at(140,  function(){ line1 = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
-      at(1450, function(){ outLine(line1); });
-      at(1650, function(){ showBuzz('All&nbsp;natural.'); });
-      at(2250, function(){ showBuzz('Low&nbsp;fat.'); });
-      at(2850, function(){ showBuzz('Multigrain.'); });
-      at(3500, function(){ if(snd) snd.riser(1.15); });
-      at(3650, function(){ var l = showLine('In every aisle.'); at(900, function(){ outLine(l); }); });
-      at(4800, function(){ showLogo(); });
-      at(6050, function(){ endIntro(); });
     }
   }
 
