@@ -447,7 +447,9 @@ section{padding:clamp(44px,6vw,86px) 0;}
 }
 .intro.play{display:flex;}
 .intro.wipe{transform:translateY(-100%);transition:transform .8s cubic-bezier(.76,0,.24,1);}
-body.intro-lock{overflow:hidden;}
+/* Scroll lock is intentionally NOT applied via overflow:hidden — a stalled
+   intro must never be able to trap the page. The fixed overlay already covers
+   the viewport during playback, and the CSS failsafe below always clears it. */
 .intro::after{ /* vignette */
   content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
   background:radial-gradient(125% 105% at 50% 48%, transparent 52%, rgba(0,0,0,0.72) 100%);
@@ -504,6 +506,12 @@ body.intro-lock{overflow:hidden;}
 .intro.go .intro-progress{animation:introBar 6s linear forwards;}
 @keyframes introBar{from{width:0;}to{width:100%;}}
 
+/* FAILSAFE — the intro can NEVER trap the page on black, even if JS stalls,
+   errors, or a stale cache never calls the teardown. Pure CSS, no JS needed. */
+@keyframes introFailsafe{to{opacity:0;visibility:hidden;pointer-events:none;}}
+.intro{animation:introFailsafe .5s ease 8s forwards;}
+@keyframes heroFailsafe{to{opacity:1;transform:none;}}
+
 /* entry gate — the one click that unlocks sound */
 .intro-enter{position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;}
 .intro-enter.hide{opacity:0;pointer-events:none;transition:opacity .45s ease;}
@@ -557,6 +565,7 @@ body.intro-lock{overflow:hidden;}
 .js body.landing .hero .issue-line{
   opacity:0;transform:translateY(26px);
   transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);
+  animation:heroFailsafe .1s linear 8s forwards; /* reveal no matter what */
 }
 .js body.landing.entered .hero .issue-line{opacity:1;transform:none;transition-delay:.02s;}
 .js body.landing.entered .hero h1{opacity:1;transform:none;transition-delay:.10s;}

@@ -179,6 +179,9 @@
       at(3650, function(){ var l = showLine('In every aisle.'); at(900, function(){ outLine(l); }); });
       at(4800, function(){ showLogo(); });
       at(6050, function(){ endIntro(); });
+
+      /* hard backstop: guarantee teardown even if a cue throws */
+      setTimeout(function(){ endIntro(); }, 7600);
     }
   }
 
