@@ -21,8 +21,62 @@
   var reduceMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  function enterHero(){ document.body.classList.add('entered'); }
+
   /* =======================================================================
-     CINEMATIC COLD OPEN — plays once per session, always skippable
+     PROCEDURAL SOUND (Web Audio — no files). Unlocks on first gesture.
+     ======================================================================= */
+  function createSound(){
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return null;
+    var ctx, master, muted = false;
+    try { muted = localStorage.getItem('nonslop_muted') === '1'; } catch(e){}
+    function ensure(){
+      if(!ctx){
+        ctx = new AC();
+        master = ctx.createGain();
+        master.gain.value = muted ? 0 : 0.8;
+        master.connect(ctx.destination);
+      }
+      return ctx;
+    }
+    function T(){ return ctx.currentTime; }
+    function tone(freq, start, dur, type, peak, endFreq){
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(freq, start);
+      if(endFreq) o.frequency.exponentialRampToValueAtTime(endFreq, start + dur);
+      g.gain.setValueAtTime(0.0001, start);
+      g.gain.exponentialRampToValueAtTime(peak || 0.3, start + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+      o.connect(g); g.connect(master); o.start(start); o.stop(start + dur + 0.03);
+    }
+    function noise(start, dur, peak, cutoff, hp){
+      var len = Math.max(1, Math.floor(ctx.sampleRate * dur));
+      var buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      var d = buf.getChannelData(0);
+      for(var i=0;i<len;i++) d[i] = Math.random()*2 - 1;
+      var n = ctx.createBufferSource(); n.buffer = buf;
+      var f = ctx.createBiquadFilter(); f.type = hp ? 'highpass' : 'lowpass'; f.frequency.value = cutoff || 1400;
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(peak || 0.2, start);
+      g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+      n.connect(f); f.connect(g); g.connect(master); n.start(start); n.stop(start + dur);
+    }
+    return {
+      resume:function(){ ensure(); return (ctx.state === 'suspended') ? ctx.resume() : Promise.resolve(); },
+      ready:function(){ return !!ctx && ctx.state === 'running'; },
+      setMuted:function(v){ muted = v; if(master) master.gain.value = v ? 0 : 0.8; try{ localStorage.setItem('nonslop_muted', v?'1':'0'); }catch(e){} },
+      isMuted:function(){ return muted; },
+      tick:function(){ if(!ctx) return; noise(T(), 0.045, 0.10, 3200, true); },
+      strike:function(){ if(!ctx) return; var s=T(); noise(s, 0.16, 0.26, 3800, true); tone(150, s, 0.16, 'sawtooth', 0.13, 70); },
+      riser:function(dur){ if(!ctx) return; var s=T(); tone(110, s, dur, 'sawtooth', 0.10, 520); noise(s, dur, 0.045, 900); },
+      boom:function(){ if(!ctx) return; var s=T(); tone(150, s, 1.2, 'sine', 0.6, 42); tone(80, s, 1.0, 'triangle', 0.28, 40); noise(s, 0.45, 0.26, 500); }
+    };
+  }
+
+  /* =======================================================================
+     CINEMATIC COLD OPEN v2 — timeline-driven, skippable, with sound
      ======================================================================= */
   var intro = document.getElementById('intro');
   if(intro){
@@ -30,29 +84,104 @@
     try { seen = sessionStorage.getItem('nonslop_intro_seen') === '1'; } catch(e){}
 
     if(seen || reduceMotion){
-      intro.parentNode.removeChild(intro);
+      if(intro.parentNode) intro.parentNode.removeChild(intro);
+      enterHero();
     } else {
-      var DURATION = 5800;      // must match .intro-progress animation
-      var FADE = 650;
-      var teardownTimer;
+      var slot = document.getElementById('introSlot');
+      var snd = createSound();
+      var timers = [];
+      var ended = false;
+      function at(ms, fn){ timers.push(setTimeout(fn, ms)); }
 
-      function endIntro(){
-        if(!intro) return;
-        clearTimeout(teardownTimer);
-        intro.classList.add('done');
-        document.body.classList.remove('intro-lock');
-        try { sessionStorage.setItem('nonslop_intro_seen','1'); } catch(e){}
-        var node = intro; intro = null;
-        setTimeout(function(){ if(node && node.parentNode) node.parentNode.removeChild(node); }, FADE);
+      function wordsHTML(str){
+        var parts = str.split(' ');
+        return '<span class="intro-words">' + parts.map(function(w,i){
+          return '<span class="w" style="transition-delay:'+(i*0.06).toFixed(2)+'s"><span class="i">'+w+'</span></span>';
+        }).join('') + '</span>';
+      }
+      function showLine(str){
+        slot.innerHTML = wordsHTML(str);
+        var el = slot.firstChild;
+        requestAnimationFrame(function(){ el.classList.add('show'); });
+        return el;
+      }
+      function outLine(el){ if(el) el.classList.add('out'); }
+      function showBuzz(text){
+        slot.innerHTML = '<span class="intro-buzz">' + text + '<span class="bar"></span></span>';
+        var el = slot.firstChild;
+        requestAnimationFrame(function(){ el.classList.add('show'); });
+        setTimeout(function(){ el.classList.add('strike'); if(snd) snd.strike(); }, 230);
+      }
+      function showLogo(){
+        slot.innerHTML = '<div class="intro-logo"><div class="lg">Non<span class="amp">·</span>Slop</div><div class="tag">The Grocery Navigator</div></div>';
+        var el = slot.firstChild;
+        requestAnimationFrame(function(){ el.classList.add('show'); });
+        if(snd) snd.boom();
       }
 
+      function endIntro(){
+        if(ended) return; ended = true;
+        timers.forEach(clearTimeout);
+        intro.classList.add('wipe');
+        document.body.classList.remove('intro-lock');
+        enterHero();
+        try { sessionStorage.setItem('nonslop_intro_seen','1'); } catch(e){}
+        var node = intro;
+        setTimeout(function(){ if(node && node.parentNode) node.parentNode.removeChild(node); }, 840);
+      }
+
+      /* audio unlock on first gesture */
+      function unlock(){
+        if(snd) snd.resume().then(updateSoundBtn);
+        window.removeEventListener('pointerdown', unlock);
+        window.removeEventListener('keydown', unlock);
+        window.removeEventListener('touchstart', unlock);
+      }
+      window.addEventListener('pointerdown', unlock);
+      window.addEventListener('keydown', unlock);
+      window.addEventListener('touchstart', unlock);
+
+      /* sound toggle */
+      var soundBtn = document.getElementById('introSound');
+      function updateSoundBtn(){
+        if(!soundBtn) return;
+        var muted = snd ? snd.isMuted() : true;
+        soundBtn.classList.toggle('muted', muted);
+        soundBtn.classList.toggle('pending', !!snd && !snd.ready() && !muted);
+        soundBtn.lastChild.textContent = muted ? ' Muted' : ' Sound';
+      }
+      if(soundBtn){
+        if(!snd){ soundBtn.style.display = 'none'; }
+        else {
+          soundBtn.addEventListener('click', function(e){
+            e.stopPropagation();
+            var willMute = !snd.isMuted();
+            snd.setMuted(willMute);
+            if(!willMute) snd.resume().then(updateSoundBtn);
+            updateSoundBtn();
+          });
+          updateSoundBtn();
+        }
+      }
+
+      var skip = document.getElementById('introSkip');
+      if(skip) skip.addEventListener('click', function(e){ e.stopPropagation(); endIntro(); });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') endIntro(); });
+
+      /* the timeline */
       document.body.classList.add('intro-lock');
       intro.classList.add('play');
-      var skip = document.getElementById('introSkip');
-      if(skip) skip.addEventListener('click', endIntro);
-      // let Escape or a click/tap skip it too
-      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') endIntro(); });
-      teardownTimer = setTimeout(endIntro, DURATION);
+
+      var line1;
+      at(140,  function(){ line1 = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
+      at(1450, function(){ outLine(line1); });
+      at(1650, function(){ showBuzz('All&nbsp;natural.'); });
+      at(2250, function(){ showBuzz('Low&nbsp;fat.'); });
+      at(2850, function(){ showBuzz('Multigrain.'); });
+      at(3500, function(){ if(snd) snd.riser(1.15); });
+      at(3650, function(){ var l = showLine('In every aisle.'); at(900, function(){ outLine(l); }); });
+      at(4800, function(){ showLogo(); });
+      at(6050, function(){ endIntro(); });
     }
   }
 

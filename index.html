@@ -19,21 +19,17 @@
   ============================================================================
 -->
 </head>
-<body>
+<body class="landing">
 <script>document.documentElement.className += ' js';</script>
 
-<!-- ================= CINEMATIC COLD OPEN (plays once per session) ================= -->
+<!-- ================= CINEMATIC COLD OPEN (JS-driven, plays once per session) ================= -->
 <div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-grain"></div>
   <div class="intro-stage">
-    <div class="intro-line l1"><span>You've been <em>lied</em> to.</span></div>
-    <div class="intro-line l2"><span><span class="struck">All&nbsp;natural.</span></span></div>
-    <div class="intro-line l3"><span>In every aisle.</span></div>
-    <div class="intro-logo">
-      <div class="lg">Non<span class="amp">·</span>Slop</div>
-      <div class="tag">The Grocery Navigator</div>
-    </div>
+    <div class="intro-slot" id="introSlot"></div>
   </div>
-  <div class="intro-progress" id="introProgress"></div>
+  <div class="intro-progress"></div>
+  <button class="intro-sound pending" id="introSound" aria-label="Toggle sound"><span class="dot"></span> Sound</button>
   <button class="intro-skip" id="introSkip">Skip →</button>
 </div>
 
@@ -63,6 +59,7 @@
 
 <!-- ================= HERO ================= -->
 <section class="hero">
+  <div class="hero-grain"></div>
   <div class="wrap">
     <div class="issue-line">
       <span>The Complete System</span>
