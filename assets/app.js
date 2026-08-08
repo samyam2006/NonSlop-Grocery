@@ -131,6 +131,23 @@
       var ended = false;
       function at(ms, fn){ timers.push(setTimeout(fn, ms)); }
 
+      /* OPTIONAL B&W video behind the intro. Drop a short (~4-6s) clip at the
+         path below to enable it — it plays, desaturated, behind the shock-stat
+         beat. Leave empty for no video (default, no network request). */
+      var INTRO_VIDEO = '';   // e.g. 'assets/intro.mp4'
+      var introVid = null;
+      if(INTRO_VIDEO){
+        introVid = document.createElement('video');
+        introVid.className = 'intro-video';
+        introVid.muted = true; introVid.loop = true; introVid.autoplay = true;
+        introVid.setAttribute('playsinline',''); introVid.playsInline = true;
+        introVid.src = INTRO_VIDEO;
+        intro.insertBefore(introVid, intro.firstChild);
+        var tryPlay = introVid.play(); if(tryPlay && tryPlay.catch) tryPlay.catch(function(){});
+      }
+      function filmOn(){ if(introVid) intro.classList.add('filmroll'); }
+      function filmOff(){ intro.classList.remove('filmroll'); }
+
       function wordsHTML(str){
         var parts = str.split(' ');
         return '<span class="intro-words">' + parts.map(function(w,i){
@@ -218,9 +235,9 @@
       at(3900,  function(){ showBuzz('Low&nbsp;fat.'); });
       at(4450,  function(){ showBuzz('Multigrain.'); });
       at(5000,  function(){ showBuzz('“Made with real&nbsp;fruit.”'); });
-      /* 4 — the shock statistic */
-      at(5700,  function(){ cur = showStat('1 in 2', 'items in the average cart is ultra-processed.'); if(snd) snd.riser(0.7); });
-      at(7200,  function(){ outLine(cur); });
+      /* 4 — the shock statistic (footage rolls behind it, if enabled) */
+      at(5700,  function(){ cur = showStat('1 in 2', 'items in the average cart is ultra-processed.'); filmOn(); if(snd) snd.riser(0.7); });
+      at(7200,  function(){ outLine(cur); filmOff(); });
       /* 5 — the turn */
       at(7450,  function(){ cur = showLine('Real food never needed a <em>label.</em>'); if(snd) snd.riser(1.0); });
       at(8650,  function(){ outLine(cur); });
