@@ -25,17 +25,19 @@
 
   /* =======================================================================
      PROCEDURAL SOUND (Web Audio — no files). Unlocks on first gesture.
+     Flip SOUND to false for a completely silent intro.
      ======================================================================= */
+  var SOUND = true;
   function createSound(){
+    if(!SOUND) return null;
     var AC = window.AudioContext || window.webkitAudioContext;
     if(!AC) return null;
-    var ctx, master, muted = false;
-    try { muted = localStorage.getItem('nonslop_muted') === '1'; } catch(e){}
+    var ctx, master;
     function ensure(){
       if(!ctx){
         ctx = new AC();
         master = ctx.createGain();
-        master.gain.value = muted ? 0 : 0.8;
+        master.gain.value = 0.8;
         master.connect(ctx.destination);
       }
       return ctx;
@@ -63,11 +65,47 @@
       g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
       n.connect(f); f.connect(g); g.connect(master); n.start(start); n.stop(start + dur);
     }
+
+    /* continuous low drone + slow heartbeat that scores the whole intro */
+    var bed = null;
+    function startBed(){
+      if(!ctx || bed) return;
+      var g = ctx.createGain(); g.gain.setValueAtTime(0.0001, T());
+      g.gain.exponentialRampToValueAtTime(0.055, T() + 1.4); g.connect(master);
+      var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 190; lp.connect(g);
+      var o1 = ctx.createOscillator(); o1.type = 'sine'; o1.frequency.value = 55;      // low A
+      var o2 = ctx.createOscillator(); o2.type = 'sine'; o2.frequency.value = 82.4;    // fifth
+      var o3 = ctx.createOscillator(); o3.type = 'triangle'; o3.frequency.value = 110;
+      var o3g = ctx.createGain(); o3g.gain.value = 0.25; o3.connect(o3g); o3g.connect(lp);
+      o1.connect(lp); o2.connect(lp);
+      o1.start(); o2.start(); o3.start();
+      var stopped = false;
+      function thump(s, peak){
+        var o = ctx.createOscillator(), gg = ctx.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(72, s); o.frequency.exponentialRampToValueAtTime(38, s + 0.18);
+        gg.gain.setValueAtTime(0.0001, s); gg.gain.exponentialRampToValueAtTime(peak, s + 0.02);
+        gg.gain.exponentialRampToValueAtTime(0.0001, s + 0.24);
+        o.connect(gg); gg.connect(master); o.start(s); o.stop(s + 0.28);
+      }
+      function beat(){
+        if(stopped || !ctx) return;
+        var s = T(); thump(s, 0.16); thump(s + 0.30, 0.11);   // lub-dub
+        bed.timer = setTimeout(beat, 1250);
+      }
+      bed = { timer: null, stop: function(){
+        stopped = true; clearTimeout(bed.timer);
+        try { g.gain.cancelScheduledValues(T()); g.gain.setValueAtTime(g.gain.value, T());
+              g.gain.exponentialRampToValueAtTime(0.0001, T() + 0.5); } catch(e){}
+        setTimeout(function(){ try{ o1.stop(); o2.stop(); o3.stop(); }catch(e){} }, 650);
+      }};
+      beat();
+    }
+
     return {
       resume:function(){ ensure(); return (ctx.state === 'suspended') ? ctx.resume() : Promise.resolve(); },
       ready:function(){ return !!ctx && ctx.state === 'running'; },
-      setMuted:function(v){ muted = v; if(master) master.gain.value = v ? 0 : 0.8; try{ localStorage.setItem('nonslop_muted', v?'1':'0'); }catch(e){} },
-      isMuted:function(){ return muted; },
+      startBed:startBed,
+      stopBed:function(){ if(bed){ bed.stop(); bed = null; } },
       tick:function(){ if(!ctx) return; noise(T(), 0.045, 0.10, 3200, true); },
       strike:function(){ if(!ctx) return; var s=T(); noise(s, 0.16, 0.26, 3800, true); tone(150, s, 0.16, 'sawtooth', 0.13, 70); },
       riser:function(dur){ if(!ctx) return; var s=T(); tone(110, s, dur, 'sawtooth', 0.10, 520); noise(s, dur, 0.045, 900); },
@@ -118,14 +156,22 @@
         requestAnimationFrame(function(){ el.classList.add('show'); });
         return el;
       }
+      function flash(){
+        intro.classList.add('flash');
+        setTimeout(function(){ intro.classList.remove('flash'); }, 130);
+      }
       function showBuzz(text){
         slot.innerHTML = '<span class="intro-buzz">' + text + '<span class="bar"></span></span>';
         var el = slot.firstChild;
         requestAnimationFrame(function(){ el.classList.add('show'); });
-        setTimeout(function(){ el.classList.add('strike'); if(snd) snd.strike(); }, 230);
+        setTimeout(function(){ el.classList.add('strike'); flash(); if(snd) snd.strike(); }, 230);
       }
       function showLogo(){
-        slot.innerHTML = '<div class="intro-logo"><div class="lg">Non<span class="amp">·</span>Slop</div><span class="lg-rule"></span><div class="tag">The Grocery Navigator</div></div>';
+        var letters = 'Non·Slop'.split('').map(function(ch,i){
+          var disp = ch === '·' ? '<span class="amp">·</span>' : ch;
+          return '<span class="ch" style="transition-delay:'+(0.055*i).toFixed(3)+'s"><span class="chi">'+disp+'</span></span>';
+        }).join('');
+        slot.innerHTML = '<div class="intro-logo"><div class="lg">'+letters+'</div><span class="lg-rule"></span><div class="tag">The Grocery Navigator</div></div>';
         var el = slot.firstChild;
         requestAnimationFrame(function(){ el.classList.add('show'); });
         if(snd) snd.boom();
@@ -134,6 +180,7 @@
       function endIntro(){
         if(ended) return; ended = true;
         timers.forEach(clearTimeout);
+        if(snd) snd.stopBed();
         intro.classList.add('wipe');
         document.body.classList.remove('intro-lock');
         enterHero();
@@ -142,37 +189,15 @@
         setTimeout(function(){ if(node && node.parentNode) node.parentNode.removeChild(node); }, 840);
       }
 
-      /* sound toggle (available once the sequence is running) */
-      var soundBtn = document.getElementById('introSound');
-      function updateSoundBtn(){
-        if(!soundBtn) return;
-        var muted = snd ? snd.isMuted() : true;
-        soundBtn.classList.toggle('muted', muted);
-        soundBtn.classList.toggle('pending', !!snd && !snd.ready() && !muted);
-        soundBtn.lastChild.textContent = muted ? ' Muted' : ' Sound';
-      }
-      if(soundBtn){
-        if(!snd){ soundBtn.style.display = 'none'; }
-        else {
-          soundBtn.addEventListener('click', function(e){
-            e.stopPropagation();
-            var willMute = !snd.isMuted();
-            snd.setMuted(willMute);
-            if(!willMute) snd.resume().then(updateSoundBtn);
-            updateSoundBtn();
-          });
-          updateSoundBtn();
-        }
-      }
-
       var skip = document.getElementById('introSkip');
       if(skip) skip.addEventListener('click', function(e){ e.stopPropagation(); endIntro(); });
       document.addEventListener('keydown', function(e){ if(e.key === 'Escape') endIntro(); });
 
-      /* unlock audio on the visitor's first interaction (browsers block it before that) */
+      /* unlock audio on the visitor's first interaction (browsers block it before
+         that); once unlocked, bring up the continuous drone/heartbeat bed */
       var unlockEvents = ['pointerdown','keydown','touchstart','click','wheel'];
       function unlock(){
-        if(snd) snd.resume().then(updateSoundBtn);
+        if(snd && !ended) snd.resume().then(function(){ if(!ended) snd.startBed(); });
         unlockEvents.forEach(function(ev){ window.removeEventListener(ev, unlock); });
       }
       unlockEvents.forEach(function(ev){ window.addEventListener(ev, unlock, { passive:true }); });
@@ -266,6 +291,61 @@
         });
       }, { threshold: 0.4 });
       pio.observe(proof);
+    }
+  }
+
+  /* =======================================================================
+     ANIMATED SECTION NUMBERS
+     ======================================================================= */
+  var heads = document.querySelectorAll('.section-head');
+  if(heads.length){
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      heads.forEach(function(h){ h.classList.add('in'); });
+    } else {
+      var hio = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ en.target.classList.add('in'); hio.unobserve(en.target); }
+        });
+      }, { threshold: 0.35 });
+      heads.forEach(function(h){ hio.observe(h); });
+    }
+  }
+
+  /* =======================================================================
+     SCROLL PROGRESS BAR (every page)
+     ======================================================================= */
+  var sp = document.getElementById('scrollProgress');
+  if(!sp){ sp = document.createElement('div'); sp.className = 'scroll-progress'; sp.id = 'scrollProgress'; document.body.appendChild(sp); }
+  var spTick = false;
+  function updateProgress(){
+    var h = document.documentElement;
+    var max = (h.scrollHeight - h.clientHeight) || 1;
+    var pct = Math.min(100, Math.max(0, (h.scrollTop || window.pageYOffset) / max * 100));
+    sp.style.width = pct + '%';
+    spTick = false;
+  }
+  window.addEventListener('scroll', function(){ if(!spTick){ spTick = true; requestAnimationFrame(updateProgress); } }, { passive:true });
+  window.addEventListener('resize', updateProgress, { passive:true });
+  updateProgress();
+
+  /* =======================================================================
+     STICKY BUY BAR (landing) — show after the hero, hide near the pricing CTA
+     ======================================================================= */
+  var buyBar = document.getElementById('buyBar');
+  var hero = document.querySelector('.hero');
+  var pricing = document.getElementById('pricing');
+  if(buyBar && hero){
+    if('IntersectionObserver' in window){
+      // reveal once the hero has scrolled out of view
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ buyBar.classList.toggle('show', !en.isIntersecting); });
+      }, { threshold: 0 }).observe(hero);
+      // hide again while the pricing section (with its own CTA) is on screen
+      if(pricing){
+        new IntersectionObserver(function(entries){
+          entries.forEach(function(en){ if(en.isIntersecting) buyBar.classList.remove('show'); });
+        }, { threshold: 0.2 }).observe(pricing);
+      }
     }
   }
 

@@ -10,12 +10,13 @@
 <link rel="stylesheet" href="assets/style.css">
 <!--
   ============================================================================
-  CHECKOUT LINK — READ ME
-  Every "Get access" button below points to  href="#pricing"  except the real
+  CHECKOUT — READ ME  (payments via WHOP)
+  Every "Get access" button points to  href="#pricing"  except the real
   purchase button in the pricing section, which has  id="buyBtn".
-  Replace that ONE href with your Payhip / Gumroad / Stripe checkout URL.
-  After purchase, your platform should grant the buyer access to guide.html
-  (the members area). See SETUP.md for the full step-by-step.
+  Replace that ONE href with your Whop checkout link
+  (e.g. https://whop.com/checkout/plan_XXXXXXXX  or your Whop product URL).
+  In Whop, gate the guide as the product's delivered content / member access
+  (link buyers to guide.html, or host the guide behind Whop). See SETUP.md.
   ============================================================================
 -->
 </head>
@@ -29,8 +30,18 @@
     <div class="intro-slot" id="introSlot"></div>
   </div>
   <div class="intro-progress"></div>
-  <button class="intro-sound pending" id="introSound" aria-label="Toggle sound"><span class="dot"></span> Sound</button>
   <button class="intro-skip" id="introSkip">Skip →</button>
+</div>
+
+<!-- scroll progress bar (all pages) -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- sticky buy bar — appears after the hero on the sales page -->
+<div class="buybar" id="buyBar" aria-hidden="true">
+  <div class="wrap">
+    <div class="buybar-copy"><strong>The NonSlop Grocery Navigator</strong><span> · 141 stores, 5 guides, lifetime access</span></div>
+    <a class="btn buybar-btn" href="#pricing">Get access <span class="price-badge">$50</span></a>
+  </div>
 </div>
 
 <header class="masthead">
@@ -195,8 +206,8 @@
       <div class="price-right">
         <div class="amount"><span class="cur">$</span>50</div>
         <div class="once">One-time · Lifetime access</div>
-        <!-- ▼▼▼ REPLACE href BELOW WITH YOUR CHECKOUT URL (Payhip / Gumroad / Stripe). See SETUP.md ▼▼▼ -->
-        <a class="btn btn-lg" id="buyBtn" href="#">Get instant access →</a>
+        <!-- ▼▼▼ REPLACE href BELOW WITH YOUR WHOP CHECKOUT URL (e.g. https://whop.com/checkout/plan_XXXX). See SETUP.md ▼▼▼ -->
+        <a class="btn btn-lg" id="buyBtn" href="#" data-whop>Get instant access →</a>
         <!-- ▲▲▲ REPLACE href ABOVE ▲▲▲ -->
         <p class="fine">Secure checkout · Instant access on purchase · 14-day money-back guarantee. One-time payment, no recurring charges.</p>
       </div>

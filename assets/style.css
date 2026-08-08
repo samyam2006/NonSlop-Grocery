@@ -489,13 +489,19 @@ section{padding:clamp(44px,6vw,86px) 0;}
 
 /* logo lockup — clip wipe */
 .intro-logo{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;}
-.intro-logo.show{opacity:1;transition:opacity .4s ease;}
+.intro-logo.show{opacity:1;transition:opacity .3s ease;}
 .intro-logo .lg{
   font-family:var(--display);font-weight:900;font-size:clamp(2.8rem,9vw,6.6rem);letter-spacing:-0.02em;
-  clip-path:inset(0 100% 0 0);transition:clip-path .7s cubic-bezier(.76,0,.24,1);
+  display:flex;align-items:flex-end;
 }
-.intro-logo.show .lg{clip-path:inset(0 0 0 0);}
+.intro-logo .lg .ch{display:inline-block;overflow:hidden;line-height:0.92;}
+.intro-logo .lg .ch .chi{display:inline-block;transform:translateY(115%);transition:transform .55s cubic-bezier(.2,.78,.2,1);}
+.intro-logo.show .lg .ch .chi{transform:translateY(0);}
 .intro-logo .lg .amp{font-style:italic;font-weight:500;}
+
+/* grain flash on each strike */
+.intro-grain{transition:opacity .12s ease;}
+.intro.flash .intro-grain{opacity:0.95;}
 .intro-logo .tag{
   font-family:var(--sans);font-size:0.8rem;font-weight:600;letter-spacing:0.34em;text-transform:uppercase;
   color:var(--muted-2);opacity:0;transform:translateY(8px);transition:opacity .5s ease .35s,transform .5s ease .35s;
@@ -538,6 +544,48 @@ section{padding:clamp(44px,6vw,86px) 0;}
 @keyframes introFailsafe{to{opacity:0;visibility:hidden;pointer-events:none;}}
 .intro{animation:introFailsafe .5s ease 12.5s forwards;}
 @keyframes heroFailsafe{to{opacity:1;transform:none;}}
+
+/* =========================================================================
+   SCROLL PROGRESS BAR (all pages)
+   ========================================================================= */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0;background:var(--ink);z-index:60;
+  transition:width .08s linear;pointer-events:none;
+}
+
+/* =========================================================================
+   STICKY BUY BAR (landing) — slides in after the hero
+   ========================================================================= */
+.buybar{
+  position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--ink);color:var(--paper);
+  border-top:2px solid var(--ink);transform:translateY(110%);transition:transform .4s cubic-bezier(.2,.7,.2,1);
+}
+.buybar.show{transform:translateY(0);}
+.buybar .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px var(--gutter);}
+.buybar-copy{font-family:var(--serif);font-size:1rem;min-width:0;}
+.buybar-copy strong{font-family:var(--display);font-weight:600;}
+.buybar-copy span{color:var(--muted-2);}
+.buybar .btn.buybar-btn{background:var(--paper);color:var(--ink);border-color:var(--paper);padding:12px 22px;white-space:nowrap;}
+.buybar .btn.buybar-btn:hover{background:transparent;color:var(--paper);}
+@media(max-width:640px){
+  .buybar-copy span{display:none;}
+  .buybar .wrap{padding:11px 18px;gap:12px;}
+  .buybar-copy{font-size:0.9rem;}
+}
+
+/* =========================================================================
+   ANIMATED SECTION NUMBERS
+   ========================================================================= */
+.js .section-head .num{
+  display:inline-block;opacity:0;transform:translateY(10px);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);
+}
+.js .section-head.in .num{opacity:1;transform:none;}
+.js .section-head .num::after{
+  content:"";display:block;height:1px;width:0;background:currentColor;opacity:0.4;margin-top:8px;
+  transition:width .7s cubic-bezier(.76,0,.24,1) .15s;
+}
+.js .section-head.in .num::after{width:38px;}
 
 /* entry gate — the one click that unlocks sound */
 .intro-enter{position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;}

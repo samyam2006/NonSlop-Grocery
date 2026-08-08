@@ -27,8 +27,8 @@ guide. Open `index.html` in any browser; no build step or server required.
 
 ## Selling it
 
-See **[SETUP.md](SETUP.md)** — how to wire up payment (Payhip / Gumroad / Ghost),
-gate the members area, and the single `href` you need to edit in `index.html`.
+See **[SETUP.md](SETUP.md)** — how to wire up payment with **Whop**, gate the
+members area, and the single `href` you need to edit in `index.html`.
 
 ## Structure
 
