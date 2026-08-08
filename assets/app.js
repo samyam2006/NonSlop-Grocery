@@ -134,7 +134,7 @@
       /* OPTIONAL B&W video behind the intro. Drop a short (~4-6s) clip at the
          path below to enable it — it plays, desaturated, behind the shock-stat
          beat. Leave empty for no video (default, no network request). */
-      var INTRO_VIDEO = '';   // e.g. 'assets/intro.mp4'
+      var INTRO_VIDEO = 'assets/intro.mp4';   // set to '' to disable
       var introVid = null;
       if(INTRO_VIDEO){
         introVid = document.createElement('video');
