@@ -18,6 +18,104 @@
     el.textContent = new Date().getFullYear();
   });
 
+  var reduceMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =======================================================================
+     CINEMATIC COLD OPEN — plays once per session, always skippable
+     ======================================================================= */
+  var intro = document.getElementById('intro');
+  if(intro){
+    var seen = false;
+    try { seen = sessionStorage.getItem('nonslop_intro_seen') === '1'; } catch(e){}
+
+    if(seen || reduceMotion){
+      intro.parentNode.removeChild(intro);
+    } else {
+      var DURATION = 5800;      // must match .intro-progress animation
+      var FADE = 650;
+      var teardownTimer;
+
+      function endIntro(){
+        if(!intro) return;
+        clearTimeout(teardownTimer);
+        intro.classList.add('done');
+        document.body.classList.remove('intro-lock');
+        try { sessionStorage.setItem('nonslop_intro_seen','1'); } catch(e){}
+        var node = intro; intro = null;
+        setTimeout(function(){ if(node && node.parentNode) node.parentNode.removeChild(node); }, FADE);
+      }
+
+      document.body.classList.add('intro-lock');
+      intro.classList.add('play');
+      var skip = document.getElementById('introSkip');
+      if(skip) skip.addEventListener('click', endIntro);
+      // let Escape or a click/tap skip it too
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') endIntro(); });
+      teardownTimer = setTimeout(endIntro, DURATION);
+    }
+  }
+
+  /* =======================================================================
+     SCROLL REVEAL
+     ======================================================================= */
+  var revealEls = document.querySelectorAll('[data-reveal],[data-reveal-child]');
+  if(revealEls.length){
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      revealEls.forEach(function(el){ el.classList.add('in'); });
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){
+            en.target.classList.add('in');
+            if(en.target.hasAttribute('data-count-group')) runCounts(en.target);
+            io.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    }
+  }
+
+  /* =======================================================================
+     COUNT-UP NUMBERS
+     ======================================================================= */
+  function animateCount(el){
+    var target = parseFloat(el.getAttribute('data-count')) || 0;
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    if(reduceMotion){ el.textContent = prefix + target + suffix; return; }
+    var dur = 1300, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(target * eased) + suffix;
+      if(p < 1) requestAnimationFrame(step);
+      else el.textContent = prefix + target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+  function runCounts(scope){
+    (scope || document).querySelectorAll('.count-up').forEach(function(el){
+      if(!el.dataset.counted){ el.dataset.counted = '1'; animateCount(el); }
+    });
+  }
+  // run counts when the proof strip reveals
+  var proof = document.querySelector('.proof');
+  if(proof){
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      runCounts(proof);
+    } else {
+      var pio = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ runCounts(proof); pio.unobserve(en.target); }
+        });
+      }, { threshold: 0.4 });
+      pio.observe(proof);
+    }
+  }
+
   /* =======================================================================
      STORE DIRECTORY
      ======================================================================= */

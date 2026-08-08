@@ -20,6 +20,22 @@
 -->
 </head>
 <body>
+<script>document.documentElement.className += ' js';</script>
+
+<!-- ================= CINEMATIC COLD OPEN (plays once per session) ================= -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-stage">
+    <div class="intro-line l1"><span>You've been <em>lied</em> to.</span></div>
+    <div class="intro-line l2"><span><span class="struck">All&nbsp;natural.</span></span></div>
+    <div class="intro-line l3"><span>In every aisle.</span></div>
+    <div class="intro-logo">
+      <div class="lg">Non<span class="amp">·</span>Slop</div>
+      <div class="tag">The Grocery Navigator</div>
+    </div>
+  </div>
+  <div class="intro-progress" id="introProgress"></div>
+  <button class="intro-skip" id="introSkip">Skip →</button>
+</div>
 
 <header class="masthead">
   <div class="masthead-top">
@@ -82,11 +98,11 @@
 
 <!-- ================= PROOF STRIP ================= -->
 <div class="wrap">
-  <div class="proof">
-    <div><div class="n">141</div><div class="l">Stores vetted, 7 regions</div></div>
-    <div><div class="n">5</div><div class="l">In-depth guides</div></div>
-    <div><div class="n">30+</div><div class="l">Fake-healthy traps exposed</div></div>
-    <div><div class="n">$0</div><div class="l">In ads or sponsorship</div></div>
+  <div class="proof" data-reveal-child>
+    <div><div class="n count-up" data-count="141">141</div><div class="l">Stores vetted, 7 regions</div></div>
+    <div><div class="n count-up" data-count="5">5</div><div class="l">In-depth guides</div></div>
+    <div><div class="n count-up" data-count="30" data-suffix="+">30+</div><div class="l">Fake-healthy traps exposed</div></div>
+    <div><div class="n count-up" data-count="0" data-prefix="$">$0</div><div class="l">In ads or sponsorship</div></div>
   </div>
 </div>
 
@@ -99,7 +115,7 @@
     </div>
     <p class="dropcap">Most of what fills a modern supermarket was engineered to be bought, not to nourish you — refined starch, industrial seed oil and added sugar, dressed up in packaging that sells the very health it destroyed. "Natural," "made with whole grain," "a good source of fibre": the loudest health claims sit on the products that need them most. Meanwhile the food that has actually kept humans alive for millennia sits quietly around the edges of the store, usually cheaper, with no marketing budget at all.</p>
     <p>You already sense this. What you don't have is the time to decode every label, cross-check every brand, and figure out what's worth buying at the specific store near you. That is the entire job this guide does for you — once, thoroughly, so you never have to think about it in the aisle again.</p>
-    <p class="pullquote">A tomato has no marketing budget. Neither does a lamb chop, a dozen pastured eggs, or a tin of sardines. This is the guide to the quiet corner of the store where your health has always been.</p>
+    <p class="pullquote" data-reveal>A tomato has no marketing budget. Neither does a lamb chop, a dozen pastured eggs, or a tin of sardines. This is the guide to the quiet corner of the store where your health has always been.</p>
   </div>
 </section>
 
@@ -111,7 +127,7 @@
       <h2>Five guides. One system.</h2>
       <p class="section-sub">Not an article and not a loose PDF — a structured, interlinked system you'll come back to every shopping trip. Here is everything inside.</p>
     </div>
-    <div class="grid cols-2 frame" style="border-color:rgba(250,249,244,0.28);">
+    <div class="grid cols-2 frame" data-reveal-child style="border-color:rgba(250,249,244,0.28);">
       <div class="tile"><span class="idx">GUIDE 01 · THE DOCTRINE</span><h3>The seven rules</h3><p>A plain-spoken foundation on why real food became hard to find, and the seven principles that replace every diet trend you'll ever be sold.</p></div>
       <div class="tile"><span class="idx">GUIDE 02 · THE DIRECTORY</span><h3>141 stores worldwide</h3><p>Searchable and filterable by region and price. For every chain: what to buy, its clean private-label line, and a practical field note.</p></div>
       <div class="tile"><span class="idx">GUIDE 03 · THE BLACKLIST</span><h3>What to avoid</h3><p>The non-negotiables, a decoder for the 60 hidden names of sugar and seed oil, and a dozen fake-healthy foods pulled apart.</p></div>
@@ -130,7 +146,7 @@
       <h2>The part a PDF could never do</h2>
       <p class="section-sub">This isn't a document you skim once and lose. It's a working tool you use standing in the aisle, on your phone.</p>
     </div>
-    <div class="grid cols-2 frame">
+    <div class="grid cols-2 frame" data-reveal-child>
       <div class="tile"><span class="idx">INTERACTIVE</span><h3>Search 141 stores instantly</h3><p>Type your store's name or filter by region and price, and get the answer to the only question that matters — <em>what do I actually buy here?</em> — in one tap.</p></div>
       <div class="tile"><span class="idx">INTERACTIVE</span><h3>The live budget calculator</h3><p>Set your household size and sourcing tier and see a real weekly and monthly cost, live. Plan the grocery bill instead of fearing it.</p></div>
       <div class="tile"><span class="idx">REFERENCE</span><h3>The ingredient decoder</h3><p>A pocket codebook that turns the fine print — "cane juice," "vegetable oil," "natural flavours" — back into plain English while you shop.</p></div>
@@ -164,7 +180,7 @@
       <p class="section-sub">No subscription, no tiers, no upsell. Pay once and the entire system is yours for life, on every device.</p>
     </div>
 
-    <div class="price-wrap">
+    <div class="price-wrap" data-reveal>
       <div class="price-left">
         <h3>The complete NonSlop system</h3>
         <p style="color:var(--muted);margin-bottom:22px;">Everything below, unlocked the moment you buy:</p>
