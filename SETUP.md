@@ -5,7 +5,7 @@ You have two parts:
 1. **A public sales page** — `index.html`. Anyone can see it. Its job is to sell.
 2. **The paid guide (members area)** — `guide.html`, `stores.html`, `avoid.html`,
    `optimize.html`, `tools.html` and everything in `assets/`. This is what a
-   buyer unlocks for **$50**.
+   buyer unlocks for **$69**.
 
 Payments and access are handled by **Whop** — you do **not** build your own
 login or take card details yourself.
@@ -20,7 +20,7 @@ login or take card details yourself.
 ## Step 1 — Create the product in Whop
 
 1. Sign in at **whop.com** and create a **Company/Store**.
-2. Add a **Product**, then a **Pricing Plan**: **one-time, $50**.
+2. Add a **Product**, then a **Pricing Plan**: **one-time, $69**.
 3. Connect your payout method (Whop handles the card processing).
 4. Copy the product's **checkout link** — it looks like
    `https://whop.com/checkout/plan_XXXXXXXXXXXX` (or your product page URL,
@@ -84,11 +84,11 @@ for launch, Options A/B are enough.
 
 ## Pricing & trust notes
 
-- **$50 is defensible because of the interactive tools** (searchable directory
+- **$69 is defensible because of the interactive tools** (searchable directory
   + live calculator) and the depth of content. Lead with those.
 - Set a **refund policy** in Whop — the page mentions a 14-day guarantee.
 - Consider a cheaper **PDF-only tier** (~$15–20) in Whop as a downsell, keeping
-  the $50 interactive system as the main plan.
+  the $69 interactive system as the main plan.
 - Keep the page's claims true: "no ads / no affiliate links," "lifetime access
   & free updates."
 

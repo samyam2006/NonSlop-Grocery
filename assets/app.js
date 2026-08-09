@@ -161,8 +161,9 @@
         return el;
       }
       function outLine(el){ if(el) el.classList.add('out'); }
-      function showCard(text){
-        slot.innerHTML = '<div class="intro-card"><span class="intro-rule"></span><span class="intro-kick">'+text+'</span><span class="intro-rule"></span></div>';
+      function showCard(text, sub){
+        slot.innerHTML = '<div class="intro-card"><span class="intro-rule"></span><span class="intro-kick">'+text+'</span>'+
+          (sub ? '<span class="intro-sub">'+sub+'</span>' : '')+'<span class="intro-rule"></span></div>';
         var el = slot.firstChild;
         requestAnimationFrame(function(){ el.classList.add('show'); });
         return el;
@@ -225,7 +226,7 @@
 
       var cur;
       /* 1 — title card */
-      at(200,   function(){ cur = showCard('The NonSlop Grocery Navigator · Vol. One'); if(snd) snd.tick(); });
+      at(200,   function(){ cur = showCard('The NonSlop Grocery Navigator · Vol. One', 'Built by Omar Palmer'); if(snd) snd.tick(); });
       at(1550,  function(){ outLine(cur); });
       /* 2 — the hook */
       at(1800,  function(){ cur = showLine("You've been <em>lied</em> to."); if(snd){ snd.tick(); at(70,function(){snd.tick();}); at(150,function(){snd.tick();}); } });
