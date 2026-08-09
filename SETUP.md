@@ -26,6 +26,9 @@ login or take card details yourself.
    `https://whop.com/checkout/plan_XXXXXXXXXXXX` (or your product page URL,
    `https://whop.com/your-store/your-product/`).
 
+> ✅ **Done:** the buy button (`id="buyBtn"`) is wired to
+> `https://whop.com/checkout/plan_ar9QvSBZ4fyDG`.
+
 ## Step 2 — Point the site's buy button at Whop
 
 In `index.html`, find the button with `id="buyBtn"` (it's wrapped in a big
