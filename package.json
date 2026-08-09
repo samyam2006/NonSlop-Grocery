@@ -1,0 +1,10 @@
+{
+  "name": "nonslop-grocery",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The NonSlop Grocery Navigator — sales page + Whop-gated guide (Vercel).",
+  "dependencies": {
+    "jose": "^5.10.0"
+  }
+}
