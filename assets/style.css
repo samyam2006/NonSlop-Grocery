@@ -238,6 +238,9 @@ section{padding:clamp(44px,6vw,86px) 0;}
 }
 .deflist .row dt{font-family:var(--display);font-weight:600;font-size:1.15rem;}
 .deflist .row dd{margin:0;color:var(--ink-2);font-size:1.02rem;}
+/* readable definition text on dark (inverted) sections */
+.invert .deflist .row dt{color:var(--white);}
+.invert .deflist .row dd{color:#c9c6bd;}
 @media(max-width:640px){.deflist .row{grid-template-columns:1fr;gap:6px;}}
 
 /* tags / stamps */
