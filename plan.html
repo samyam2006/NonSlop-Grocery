@@ -50,6 +50,66 @@
 <section id="planApp">
   <div class="wrap">
 
+    <!-- ===== macro & calorie calculator ===== -->
+    <div class="section-head" style="border-bottom:1px solid var(--ink);margin-bottom:20px;">
+      <span class="num">→</span>
+      <h2 style="font-size:clamp(1.5rem,2.6vw,2rem);">Your daily targets</h2>
+      <p class="section-sub">Work out roughly how much to eat, then build the plan to match. Estimates use the Mifflin–St Jeor equation.</p>
+    </div>
+    <div class="plan-controls macro-controls">
+      <div class="pc-field">
+        <label>Sex</label>
+        <div class="seg" id="segSex">
+          <button data-v="male" class="on">Male</button>
+          <button data-v="female">Female</button>
+        </div>
+      </div>
+      <div class="pc-field">
+        <label>Units</label>
+        <div class="seg" id="segUnits">
+          <button data-v="metric" class="on">Metric</button>
+          <button data-v="imperial">Imperial</button>
+        </div>
+      </div>
+      <div class="pc-field">
+        <label for="mcAge">Age</label>
+        <input type="number" id="mcAge" value="30" min="14" max="90">
+      </div>
+      <div class="pc-field" id="uf-metric">
+        <label>Weight (kg) / Height (cm)</label>
+        <div class="dual"><input type="number" id="mcWeight" value="80" min="30" max="250"><input type="number" id="mcHeightCm" value="178" min="120" max="220"></div>
+      </div>
+      <div class="pc-field" id="uf-imperial" style="display:none">
+        <label>Weight (lb) / Height (ft, in)</label>
+        <div class="dual"><input type="number" id="mcWeightLb" value="176" min="60" max="550" oninput="document.getElementById('mcWeight').value=this.value;document.getElementById('mcWeight').dispatchEvent(new Event('input'))"><input type="number" id="mcFt" value="5" min="3" max="7"><input type="number" id="mcIn" value="10" min="0" max="11"></div>
+      </div>
+      <div class="pc-field" style="grid-column:1 / -1;">
+        <label>Activity</label>
+        <div class="seg" id="segActivity">
+          <button data-v="1.2">Sedentary</button>
+          <button data-v="1.375">Light</button>
+          <button data-v="1.55" class="on">Moderate</button>
+          <button data-v="1.725">Very active</button>
+        </div>
+      </div>
+      <div class="pc-field" style="grid-column:1 / -1;border-bottom:none;">
+        <label>Goal</label>
+        <div class="seg" id="segGoal">
+          <button data-v="-0.2">Lose fat</button>
+          <button data-v="0" class="on">Maintain</button>
+          <button data-v="0.12">Build muscle</button>
+        </div>
+      </div>
+    </div>
+    <div class="target-out" id="targetOut"></div>
+    <p class="disclaimer" style="margin-bottom:44px;">A starting estimate, not a prescription — real needs vary with training, sleep and body composition. Protein is set to ~2&nbsp;g/kg with a fat floor for hormone health; adjust to how you look, feel and perform.</p>
+
+    <div class="section-head" style="border-bottom:1px solid var(--ink);margin-bottom:20px;">
+      <span class="num">→</span>
+      <h2 style="font-size:clamp(1.5rem,2.6vw,2rem);">Your meal plan &amp; shopping list</h2>
+      <p class="section-sub">Set your household and preferences; regenerate until the week looks right.</p>
+    </div>
+
     <!-- controls -->
     <div class="plan-controls">
       <div class="pc-field">
@@ -100,6 +160,7 @@
       <div class="pcost"><div class="pcost-n" id="costMonthly">—</div><div class="pcost-l">Monthly total</div></div>
     </div>
     <p class="plan-compare" id="costCompare"></p>
+    <p class="plan-macros" id="planMacros"></p>
 
     <div class="plan-split">
       <!-- meal plan -->
@@ -181,6 +242,7 @@
         <a href="optimize.html">Eat to Optimise</a>
         <a href="plan.html">Meal Plan &amp; List</a>
         <a href="tools.html">Budget · Water · Hygiene</a>
+        <a href="sources.html">Methodology &amp; Sources</a>
       </div>
       <div>
         <h4>The Planner</h4>

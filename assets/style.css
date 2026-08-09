@@ -345,6 +345,7 @@ section{padding:clamp(44px,6vw,86px) 0;}
    MISC
    ========================================================================= */
 .disclaimer{font-size:0.86rem;color:var(--muted);border-left:2px solid var(--line-2);padding-left:16px;margin-top:16px;}
+.sub-h{font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,2.2vw,1.7rem);margin-top:8px;}
 .link-underline{text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:1px;}
 .link-underline:hover{background:var(--ink);color:var(--paper);}
 .hidden{display:none !important;}
@@ -641,6 +642,34 @@ section{padding:clamp(44px,6vw,86px) 0;}
 .shop-item{flex:1;font-size:1.02rem;}
 .shop-cat li input:checked ~ .shop-item{text-decoration:line-through;color:var(--muted);}
 .shop-qty{font-family:var(--mono);font-size:0.85rem;color:var(--ink-2);white-space:nowrap;}
+
+/* macro calculator */
+.dual{display:flex;gap:8px;}
+.dual input{width:84px;}
+.target-out{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--ink);border-top:none;}
+.target-out .tcard{padding:20px 22px;border-right:var(--hair);}
+.target-out .tcard:last-child{border-right:none;}
+.target-out .tnum{font-family:var(--display);font-weight:600;font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1;font-variant-numeric:tabular-nums;}
+.target-out .tlbl{font-family:var(--sans);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+@media(max-width:560px){.target-out{grid-template-columns:repeat(2,1fr);} .target-out .tcard:nth-child(2){border-right:none;}}
+
+/* recipe expanders inside the plan */
+.plan-recipe{min-width:0;}
+.plan-recipe summary{list-style:none;cursor:pointer;display:flex;flex-direction:column;gap:3px;}
+.plan-recipe summary::-webkit-details-marker{display:none;}
+.plan-recipe summary::after{content:"+ recipe";font-family:var(--sans);font-size:0.6rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:5px;}
+.plan-recipe[open] summary::after{content:"– close";}
+.plan-recipe .plan-macro{font-family:var(--mono);font-size:0.74rem;color:var(--muted);}
+.plan-body{padding:10px 0 4px;}
+.plan-steps{margin:4px 0 8px 1.15em;padding:0;font-size:0.95rem;color:var(--ink-2);}
+.plan-steps li{margin:4px 0;}
+.plan-inglist{font-size:0.86rem;color:var(--muted);margin:6px 0 0;}
+
+/* daily macro estimate line */
+.plan-macros{font-size:1.02rem;color:var(--ink-2);margin:0 0 40px;padding:14px 0;border-top:var(--hair);border-bottom:var(--hair);}
+.plan-macros .pm-h{color:var(--muted);}
+.plan-macros strong{font-family:var(--display);font-weight:600;}
+.plan-macros .pm-cmp{font-family:var(--mono);font-size:0.8rem;color:var(--muted);display:inline-block;margin-left:6px;}
 
 /* =========================================================================
    PRINT — clean plan + list only

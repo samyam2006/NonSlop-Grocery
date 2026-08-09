@@ -17,6 +17,7 @@
 
   var state = { household:2, days:7, diet:"omnivore", tier:"standard",
                 slots:{breakfast:true, lunch:true, dinner:true} };
+  var targets = null; // set by the macro calculator
 
   /* ---- helpers ---- */
   function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t;} return a; }
@@ -79,15 +80,49 @@
       var rows = current.slots.map(function(s){
         var m = day.meals[s];
         if(!m) return "";
+        var macro = (m.kcal? (m.kcal+' kcal · '+m.p+'P / '+m.f+'F / '+m.c+'C'+(m.time?' · '+m.time+' min':'')) : '');
+        var steps = (m.steps&&m.steps.length) ? '<ol class="plan-steps">'+m.steps.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol>' : '';
+        var ings = m.ing.map(function(ig){ return esc(ig.n)+(ig.q?(' — '+fmtQty(ig.q,ig.u)):''); }).join(' · ');
         return '<div class="plan-meal"><span class="plan-slot">'+slotLabel[s]+'</span>'+
-               '<div><div class="plan-name">'+esc(m.name)+'</div>'+
-               (m.note?'<div class="plan-note">'+esc(m.note)+'</div>':'')+'</div></div>';
+               '<details class="plan-recipe"><summary>'+
+                 '<span class="plan-name">'+esc(m.name)+'</span>'+
+                 (macro?'<span class="plan-macro">'+macro+'</span>':'')+
+               '</summary>'+
+               '<div class="plan-body">'+
+                 (m.note?'<p class="plan-note">'+esc(m.note)+'</p>':'')+
+                 steps+
+                 '<p class="plan-inglist"><strong>For 1 serving:</strong> '+ings+'</p>'+
+               '</div></details></div>';
       }).join("");
       return '<div class="plan-day"><div class="plan-daynum">'+(DAYNAMES[day.i]||("Day "+(day.i+1)))+'</div>'+rows+'</div>';
     }).join("");
 
     renderList();
     renderCost();
+    renderMacros();
+  }
+
+  /* ---- daily macro estimate from the plan (per person) ---- */
+  function renderMacros(){
+    var el = document.getElementById("planMacros");
+    if(!el) return;
+    var tot = {kcal:0,p:0,f:0,c:0};
+    current.meals.forEach(function(m){ tot.kcal+=m.kcal||0; tot.p+=m.p||0; tot.f+=m.f||0; tot.c+=m.c||0; });
+    var days = state.days || 1;
+    var d = { kcal:Math.round(tot.kcal/days), p:Math.round(tot.p/days), f:Math.round(tot.f/days), c:Math.round(tot.c/days) };
+    var cmp = "";
+    if(targets){
+      var ratio = d.kcal / (targets.kcal||1);
+      var msg;
+      if(ratio < 0.9) msg = "below your "+targets.kcal+" kcal target — increase portions or add a side/snack to close the gap";
+      else if(ratio > 1.1) msg = "above your "+targets.kcal+" kcal target — trim portions or drop a side";
+      else msg = "right on your "+targets.kcal+" kcal target";
+      cmp = ' <span class="pm-cmp">'+msg+'</span>';
+    } else {
+      cmp = ' <span class="pm-cmp">set your targets above to compare</span>';
+    }
+    el.innerHTML = '<span class="pm-h">Plan provides ~</span>'+
+      '<strong>'+d.kcal+' kcal</strong> / day · '+d.p+'g protein · '+d.f+'g fat · '+d.c+'g carbs per person at one serving each.'+cmp;
   }
 
   /* ---- shopping list ---- */
@@ -180,6 +215,67 @@
   if(printBtn) printBtn.addEventListener("click", function(e){ e.preventDefault(); window.print(); });
 
   function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+  /* =======================================================================
+     MACRO & CALORIE TARGET CALCULATOR
+     Mifflin–St Jeor BMR × activity, adjusted for goal. Protein by bodyweight,
+     a fat floor for hormone health, carbs as the remainder.
+     ======================================================================= */
+  var mc = { sex:"male", units:"metric", age:30, weight:80, heightCm:178, ft:5, in:10, activity:1.55, goal:0 };
+  function computeTargets(){
+    var out = document.getElementById("targetOut");
+    if(!out) return;
+    var kg, cm;
+    if(mc.units==="metric"){ kg = mc.weight; cm = mc.heightCm; }
+    else { kg = mc.weight * 0.4536; cm = (mc.ft*12 + mc.in) * 2.54; }
+    if(!kg || !cm || !mc.age){ return; }
+    var bmr = 10*kg + 6.25*cm - 5*mc.age + (mc.sex==="male" ? 5 : -161);
+    var tdee = bmr * mc.activity;
+    var kcal = tdee * (1 + mc.goal); // goal is -0.20 / 0 / +0.12
+    kcal = Math.round(kcal/10)*10;
+    var protein = Math.round(2.0 * kg);                 // 2.0 g/kg
+    var fat = Math.max(Math.round(0.9*kg), Math.round(0.30*kcal/9)); // floor for hormones
+    var carbs = Math.max(0, Math.round((kcal - protein*4 - fat*9)/4));
+    targets = { kcal:kcal, p:protein, f:fat, c:carbs };
+    out.innerHTML =
+      '<div class="tcard"><div class="tnum">'+kcal+'</div><div class="tlbl">kcal / day</div></div>'+
+      '<div class="tcard"><div class="tnum">'+protein+'g</div><div class="tlbl">Protein</div></div>'+
+      '<div class="tcard"><div class="tnum">'+fat+'g</div><div class="tlbl">Fat</div></div>'+
+      '<div class="tcard"><div class="tnum">'+carbs+'g</div><div class="tlbl">Carbs</div></div>';
+    if(current) renderMacros();
+  }
+  function segM(id, key, cast){
+    var el = document.getElementById(id); if(!el) return;
+    el.querySelectorAll("button").forEach(function(b){
+      b.addEventListener("click", function(){
+        el.querySelectorAll("button").forEach(function(x){x.classList.remove("on");});
+        b.classList.add("on");
+        mc[key] = cast ? cast(b.getAttribute("data-v")) : b.getAttribute("data-v");
+        if(key==="units") syncUnitFields();
+        computeTargets();
+      });
+    });
+  }
+  function num(id, key){
+    var el = document.getElementById(id); if(!el) return;
+    el.addEventListener("input", function(){ mc[key] = parseFloat(this.value)||0; computeTargets(); });
+  }
+  function syncUnitFields(){
+    var metric = document.getElementById("uf-metric");
+    var imperial = document.getElementById("uf-imperial");
+    if(metric) metric.style.display = mc.units==="metric" ? "" : "none";
+    if(imperial) imperial.style.display = mc.units==="imperial" ? "" : "none";
+  }
+  if(document.getElementById("targetOut")){
+    segM("segSex","sex");
+    segM("segUnits","units");
+    segM("segActivity","activity", function(v){return parseFloat(v);});
+    segM("segGoal","goal", function(v){return parseFloat(v);});
+    num("mcAge","age"); num("mcWeight","weight"); num("mcHeightCm","heightCm");
+    num("mcFt","ft"); num("mcIn","in");
+    syncUnitFields();
+    computeTargets();
+  }
 
   generate();
 })();
