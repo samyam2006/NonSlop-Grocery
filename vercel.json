@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/guard.js": {
+      "includeFiles": "api/_content/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/guide.html",    "destination": "/api/guard?p=guide.html" },
+    { "source": "/stores.html",   "destination": "/api/guard?p=stores.html" },
+    { "source": "/avoid.html",    "destination": "/api/guard?p=avoid.html" },
+    { "source": "/optimize.html", "destination": "/api/guard?p=optimize.html" },
+    { "source": "/tools.html",    "destination": "/api/guard?p=tools.html" },
+    { "source": "/plan.html",     "destination": "/api/guard?p=plan.html" },
+    { "source": "/sources.html",  "destination": "/api/guard?p=sources.html" },
+    { "source": "/assets/stores-data.js", "destination": "/api/guard?p=assets/stores-data.js" },
+    { "source": "/assets/meals-data.js",  "destination": "/api/guard?p=assets/meals-data.js" },
+    { "source": "/assets/plan.js",        "destination": "/api/guard?p=assets/plan.js" }
+  ]
+}

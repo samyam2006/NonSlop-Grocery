@@ -8,17 +8,31 @@ unchanged** — this is a separate auth layer wrapped around them.
 ## How it works
 ```
 visitor → /guide.html
-      → Edge Middleware checks for a valid session cookie
-          ├─ valid   → serve the guide (unchanged)
-          └─ none    → /api/auth/login → Whop OAuth login
-                          → /api/auth/callback
-                              ├─ has active membership → set cookie → guide
-                              └─ no membership         → Whop checkout
+      → vercel.json rewrite → /api/guard  (serverless function)
+          → checks for a valid, paid session cookie
+              ├─ valid → reads the real file from api/_content/ and
+              │          streams it back byte-for-byte (UI unchanged)
+              └─ none  → /api/auth/login → Whop OAuth login
+                             → /api/auth/callback
+                                 ├─ active membership → set cookie → guide
+                                 └─ no membership     → Whop checkout
 ```
+**Why this is airtight:** the protected pages and the guide-only data files do
+**not exist as static files** on the site. They live in `api/_content/`, which
+Vercel never serves. The *only* way to reach them is through `/api/guard`,
+which serves them only after the paywall check. If auth were somehow
+misconfigured, typing `/guide.html` returns a redirect or 404 — never the guide.
+
 Protected: `guide/stores/avoid/optimize/tools/plan/sources.html` **and** the
-guide-only data files (`assets/stores-data.js`, `assets/meals-data.js`,
+guide-only data (`assets/stores-data.js`, `assets/meals-data.js`,
 `assets/plan.js`). Public (unchanged): `index.html`, `assets/style.css`,
 `assets/app.js`, the intro video.
+
+> **This protection lives on the `claude/access-verification-p56u37` branch.**
+> Vercel must deploy *this* branch (or you must merge it into the branch Vercel
+> deploys). If Vercel is building `main` and the auth code isn't there yet, the
+> site has no lock. In Vercel → Settings → Git you can set the Production
+> Branch, or open a PR and merge this into your deployed branch.
 
 ---
 
@@ -28,13 +42,17 @@ guide-only data files (`assets/stores-data.js`, `assets/meals-data.js`,
 3. You'll get a URL like `https://nonslop-grocery.vercel.app` (add your custom
    domain later if you want).
 
-## Step 2 — Create a Whop OAuth app
-1. Whop dashboard → **Developer → OAuth apps → Create**.
+## Step 2 — Get your Whop OAuth credentials
+On the Whop **Developer** page you already have open:
+1. Find the **“OAuth (deprecated)”** section — *“Allow users to login with Whop
+   on your own website.”* (Despite the “deprecated” label this is the login flow
+   we use; it still works.) Expand it.
 2. Set the **Redirect URI** to exactly:
-   `https://YOUR-VERCEL-DOMAIN/api/auth/callback`
-   (add one for each domain you use, including the custom domain).
-3. Copy the **Client ID** and **Client Secret**.
-4. Also create an **API key** (Developer → API keys) — used to verify memberships.
+   `https://non-slop-grocery.vercel.app/api/auth/callback`
+   (add one line per domain you use, including any custom domain).
+3. Copy the **Client ID** and **Client Secret** shown there.
+4. Scroll up to **API keys** on the same Developer page and create/copy an
+   **API key** — used to verify a buyer’s membership server-side.
 
 ## Step 3 — Set environment variables in Vercel
 Vercel → your project → **Settings → Environment Variables**. Add (see
@@ -77,7 +95,8 @@ the auth flow logs them in automatically.
   the membership match can be adjusted if needed.
 - **Session length:** 30 days, then a silent re-login. Change `expiresIn` in
   `lib/session.js`.
-- **Not a paywall bypass:** the guide files are only served after the edge
-  middleware verifies the cookie, so typing the URL directly can't reveal them.
+- **Not a paywall bypass:** the guide files are only served after `/api/guard`
+  verifies the cookie, and they aren't static files at all, so typing the URL
+  directly can't reveal them.
 - This does **not** change anything about how the guide looks or works for a
   paying member.
