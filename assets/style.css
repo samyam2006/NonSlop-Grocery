@@ -264,6 +264,30 @@ section{padding:clamp(44px,6vw,86px) 0;}
 .callout .kicker{margin-bottom:12px;}
 .callout.avoid .kicker{color:var(--accent-2);}
 
+/* before / after transformation */
+.ba{margin:0;}
+.ba-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,22px);}
+.ba-shot{position:relative;border:2px solid var(--ink);background:var(--paper-2);overflow:hidden;}
+.ba-shot img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;}
+.ba-shot figcaption{position:absolute;top:0;left:0;font-family:var(--sans);font-size:0.66rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--white);background:var(--ink);padding:6px 12px;}
+.ba-shot:last-child figcaption{background:var(--accent);}
+.ba-shot.ba-missing{aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(45deg,var(--paper-2),var(--paper-2) 12px,var(--paper-3) 12px,var(--paper-3) 24px);}
+.ba-shot.ba-missing::after{content:"Photo coming soon";font-family:var(--mono);font-size:0.8rem;color:var(--muted);}
+.ba-caption{font-family:var(--serif);font-size:1.06rem;color:var(--muted);text-align:center;margin:18px auto 0;max-width:60ch;line-height:1.55;}
+
+/* value-contrast stakes band */
+.stakes-grid{display:flex;align-items:center;justify-content:center;gap:clamp(18px,4vw,54px);flex-wrap:wrap;}
+.stakes-col{display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;min-width:210px;}
+.stakes-label{font-family:var(--sans);font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;}
+.stakes-fig{font-family:var(--display);font-weight:600;font-size:clamp(3rem,9vw,5.4rem);line-height:0.95;letter-spacing:-0.02em;color:var(--paper);}
+.stakes-col.win .stakes-fig{color:var(--accent-lift);}
+.stakes-sub{font-family:var(--mono);font-size:0.82rem;color:var(--muted-2);margin-top:14px;max-width:26ch;line-height:1.5;}
+.stakes-vs{font-family:var(--display);font-style:italic;font-size:1.4rem;color:var(--muted-2);flex:0 0 auto;}
+.stakes-foot{font-family:var(--serif);font-size:1.14rem;color:#d8d5cc;text-align:center;max-width:64ch;margin:34px auto 0;line-height:1.6;}
+@media(max-width:640px){
+  .stakes-vs{width:100%;flex-basis:100%;}
+}
+
 /* the cost-of-bad-health ledger */
 .ledger{border:2px solid var(--ink);margin-top:14px;}
 .ledger-row{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:18px clamp(18px,3vw,28px);border-bottom:var(--hair);}
