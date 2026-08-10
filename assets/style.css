@@ -358,6 +358,13 @@ section{padding:clamp(44px,6vw,86px) 0;}
 .store .s-avail{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:12px;border-top:var(--hair);border-bottom:var(--hair);padding:14px 0;margin:2px 0;}
 .store .s-avail .pill{font-size:0.95rem;color:var(--ink-2);display:flex;flex-direction:column;gap:3px;flex:1;min-width:200px;}
 .store .s-avail .pill em{font-family:var(--sans);font-style:normal;font-size:0.66rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);}
+/* per-store signature: what it's uniquely best for + don't-miss picks */
+.store .s-sig{grid-column:1 / -1;background:var(--paper-3);border-left:4px solid var(--accent);padding:16px 20px;margin-bottom:6px;}
+.store.open .s-sig{background:var(--white);}
+.store .s-best{font-family:var(--display);font-weight:600;font-size:1.16rem;color:var(--ink);line-height:1.3;}
+.store .s-gems{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;}
+.store .s-gems li{font-size:0.95rem;line-height:1.4;color:var(--ink-2);padding-left:22px;position:relative;}
+.store .s-gems li::before{content:"★";position:absolute;left:0;top:0;color:var(--accent);font-size:0.85rem;}
 /* the full per-store shopping list (30–60 items) */
 .store .s-list{grid-column:1 / -1;border-top:var(--hair);margin-top:6px;padding-top:16px;}
 .store .s-list-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px;}

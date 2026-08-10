@@ -433,6 +433,10 @@
           '</div>'+
           '<div class="s-right">'+esc(s.region.toUpperCase())+'</div>'+
           '<div class="s-detail">'+
+            (s.best ? '<div class="s-sig">'+
+                '<div class="s-best">'+esc(s.best)+'</div>'+
+                (s.gems && s.gems.length ? '<ul class="s-gems">'+s.gems.map(function(g){ return '<li>'+esc(g)+'</li>'; }).join('')+'</ul>' : '')+
+              '</div>' : '')+
             '<div><h4>What to prioritise</h4><p>'+esc(s.buy)+'</p></div>'+
             '<div><h4>Brands to look for</h4>'+brands+brandsNote+'</div>'+
             avail+
