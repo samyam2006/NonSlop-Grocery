@@ -358,6 +358,20 @@ section{padding:clamp(44px,6vw,86px) 0;}
 .store .s-avail{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:12px;border-top:var(--hair);border-bottom:var(--hair);padding:14px 0;margin:2px 0;}
 .store .s-avail .pill{font-size:0.95rem;color:var(--ink-2);display:flex;flex-direction:column;gap:3px;flex:1;min-width:200px;}
 .store .s-avail .pill em{font-family:var(--sans);font-style:normal;font-size:0.66rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);}
+/* the full per-store shopping list (30–60 items) */
+.store .s-list{grid-column:1 / -1;border-top:var(--hair);margin-top:6px;padding-top:16px;}
+.store .s-list-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+.store .s-list-head h4{margin:0;}
+.store .s-count{font-family:var(--mono);font-size:0.74rem;color:var(--accent);}
+.store .s-cats{columns:3;column-gap:30px;}
+.store .s-catcol{break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:16px;}
+.store .s-catcol h5{font-family:var(--sans);font-size:0.66rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-2);margin:0 0 7px;padding-bottom:5px;border-bottom:1px solid var(--line);}
+.store .s-catcol ul{list-style:none;margin:0;padding:0;}
+.store .s-catcol li{font-size:0.9rem;line-height:1.42;margin-bottom:8px;color:var(--ink-2);padding-left:16px;position:relative;}
+.store .s-catcol li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;background:var(--accent);border-radius:50%;opacity:0.55;}
+.store .s-catcol li b{color:var(--ink);font-weight:600;}
+@media(max-width:900px){.store .s-cats{columns:2;}}
+@media(max-width:560px){.store .s-cats{columns:1;}}
 /* Frankie's online-sourcing callout */
 .source-callout{display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;margin:28px 0 8px;padding:clamp(22px,3vw,34px);background:var(--ink);color:var(--paper);border-left:5px solid var(--accent);}
 .source-callout .kicker{color:var(--accent-lift);margin-bottom:8px;}

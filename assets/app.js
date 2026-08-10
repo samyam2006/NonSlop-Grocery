@@ -402,6 +402,29 @@
             '<span class="pill"><em>Organ meats</em>'+esc(s.organs || '—')+'</span>'+
             '<span class="pill"><em>Quality dairy</em>'+esc(s.dairy || '—')+'</span>'+
           '</div>';
+        // full categorised shopping list (30–60 items) built from the shared catalogue
+        var listHTML = '';
+        if (s.picks && s.picks.length && typeof STORE_ITEMS !== 'undefined') {
+          var cats = (typeof ITEM_CATS !== 'undefined') ? ITEM_CATS : [];
+          var grouped = {};
+          s.picks.forEach(function(id){
+            var it = STORE_ITEMS[id]; if(!it) return;
+            (grouped[it.c] = grouped[it.c] || []).push(it);
+          });
+          var order = cats.length ? cats : Object.keys(grouped);
+          var cols = order.filter(function(c){ return grouped[c]; }).map(function(c){
+            var items = grouped[c].map(function(it){
+              return '<li><b>'+esc(it.n)+'</b> — '+esc(it.w)+'</li>';
+            }).join('');
+            return '<div class="s-catcol"><h5>'+esc(c)+'</h5><ul>'+items+'</ul></div>';
+          }).join('');
+          listHTML =
+            '<div class="s-list">'+
+              '<div class="s-list-head"><h4>The shopping list</h4>'+
+                '<span class="s-count">'+s.picks.length+' items · tap-friendly at the store</span></div>'+
+              '<div class="s-cats">'+cols+'</div>'+
+            '</div>';
+        }
         el.innerHTML =
           '<div class="s-main">'+
             '<div class="s-name">'+esc(s.name)+' '+verSeal+' <span class="stamp ghost">'+esc(s.price)+'</span></div>'+
@@ -415,6 +438,7 @@
             avail+
             '<div><h4>Skip here</h4><p>'+esc(s.skip || '—')+'</p></div>'+
             '<div><h4>Field note</h4><p>'+esc(s.tip)+'</p></div>'+
+            listHTML+
           '</div>';
         el.addEventListener('click', function(){ el.classList.toggle('open'); });
         grid.appendChild(el);
