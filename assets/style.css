@@ -369,6 +369,16 @@ section{padding:clamp(44px,6vw,86px) 0;}
 .source-callout .source-btn{background:var(--paper);color:var(--ink);border-color:var(--paper);white-space:nowrap;flex:0 0 auto;}
 .source-callout .source-btn:hover{background:transparent;color:var(--paper);}
 
+/* coaching upsell band */
+.coach-cta{background:var(--ink);color:var(--paper);padding:clamp(48px,7vw,88px) 0;text-align:center;border-top:4px solid var(--accent);}
+.coach-cta .kicker{color:var(--accent-lift);}
+.coach-cta h2{font-family:var(--display);font-weight:600;font-size:clamp(2rem,5vw,3.2rem);margin:14px 0 18px;}
+.coach-cta .coach-lede{color:#d8d5cc;font-size:1.14rem;line-height:1.6;max-width:60ch;margin:0 auto 30px;}
+.coach-cta .coach-row{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.coach-cta .btn{background:var(--accent);color:var(--white);border-color:var(--accent);}
+.coach-cta .btn:hover{background:transparent;color:var(--accent-lift);border-color:var(--accent-lift);}
+.coach-cta .coach-note{font-family:var(--mono);font-size:0.78rem;color:var(--muted-2);letter-spacing:0.04em;}
+
 /* =========================================================================
    PRINTABLE CHEAT SHEET
    ========================================================================= */
