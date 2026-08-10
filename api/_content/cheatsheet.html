@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Real-Food Cheat Sheet — Print &amp; Take to the Store</title>
+<meta name="description" content="A one-page, printable real-food shopping cheat sheet: what to buy, what to skip, and how to read a label in ninety seconds. Save as PDF or print and take it to the store.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="sheet">
+<script>document.documentElement.className += ' js';</script>
+
+<div class="scroll-progress no-print" id="scrollProgress"></div>
+
+<header class="masthead no-print">
+  <div class="masthead-top">
+    <a class="brand" href="guide.html">
+      <span class="logo">Non<span class="amp">·</span>Slop</span>
+      <span class="est">The Grocery Navigator</span>
+    </a>
+    <button class="nav-toggle" id="navToggle">Menu</button>
+    <nav class="nav" id="primaryNav">
+      <a href="guide.html">Home</a>
+      <a href="stores.html">Stores</a>
+      <a href="avoid.html">What to Avoid</a>
+      <a href="optimize.html">Optimize</a>
+      <a href="plan.html">Meal Plan</a>
+      <a href="tools.html">Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- print / save toolbar (screen only) -->
+<div class="sheet-bar no-print">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Printable · take it to the store</p>
+      <h1>The Real-Food Cheat Sheet</h1>
+      <p class="sheet-lede">Everything essential on one page. Tap the button to save it as a PDF or print it, then fold it into your pocket or keep it on your phone. Checkboxes are yours to tick.</p>
+    </div>
+    <button class="btn btn-lg" id="printBtn" onclick="window.print()">Save as PDF / Print →</button>
+  </div>
+</div>
+
+<!-- ============ THE PRINTABLE DOCUMENT ============ -->
+<main class="sheet-doc">
+  <div class="sheet-page">
+
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-logo">Non·Slop</div>
+        <div class="sheet-sub">The Real-Food Cheat Sheet</div>
+      </div>
+      <div class="sheet-tag">Shop the edges. Trust the ingredient list. Eat the animal, not the imitation.</div>
+    </div>
+
+    <div class="sheet-cols">
+
+      <!-- BUY -->
+      <section class="sheet-block buy">
+        <h2>✓ Buy — build the cart from these</h2>
+
+        <h3>Meat &amp; eggs</h3>
+        <ul class="ck">
+          <li>Grass-fed / grass-finished beef &amp; lamb</li>
+          <li>Beef liver, heart, oxtail, marrow bones</li>
+          <li>Pasture-raised eggs</li>
+          <li>Pastured / organic chicken (whole is cheapest)</li>
+          <li>Bacon &amp; sausage with no added sugar or fillers</li>
+        </ul>
+
+        <h3>Seafood</h3>
+        <ul class="ck">
+          <li>Wild salmon (sockeye), sardines, mackerel</li>
+          <li>Tinned fish in olive oil or water</li>
+          <li>Shellfish — oysters, mussels, shrimp</li>
+        </ul>
+
+        <h3>Dairy &amp; fats</h3>
+        <ul class="ck">
+          <li>Butter &amp; ghee (grass-fed if you can)</li>
+          <li>Full-fat plain yogurt &amp; kefir</li>
+          <li>Raw-milk / aged cheeses</li>
+          <li>Extra-virgin olive oil, coconut oil, tallow</li>
+        </ul>
+
+        <h3>Produce</h3>
+        <ul class="ck">
+          <li>Leafy greens, crucifers, berries, avocados</li>
+          <li>Onions, garlic, mushrooms, squash</li>
+          <li>Fresh herbs, lemons, ginger</li>
+        </ul>
+
+        <h3>Pantry</h3>
+        <ul class="ck">
+          <li>Nuts &amp; seeds (raw, unsalted)</li>
+          <li>Olives, honey (raw), real maple</li>
+          <li>Sea salt, single-ingredient spices</li>
+          <li>Fermented: sauerkraut, kimchi, miso</li>
+        </ul>
+      </section>
+
+      <!-- SKIP -->
+      <section class="sheet-block skip">
+        <h2>✕ Skip — put it back</h2>
+
+        <h3>Industrial seed oils</h3>
+        <p class="tight">Soybean · canola · corn · "vegetable" · sunflower · safflower · cottonseed · grapeseed · rice bran. Hidden in nearly all packaged &amp; fried food.</p>
+
+        <h3>Sugar, under every alias</h3>
+        <p class="tight">Corn syrup · HFCS · cane juice · dextrose · maltodextrin · "fruit concentrate" · agave · rice syrup. If it's in the first 3 ingredients, put it back.</p>
+
+        <h3>Fake sugars</h3>
+        <p class="tight">Sucralose · aspartame · acesulfame-K. Erythritol in moderation at most.</p>
+
+        <h3>Ultra-processed flags</h3>
+        <ul class="ck">
+          <li>Ingredient list longer than your hand</li>
+          <li>Words you can't pronounce / say "modified"</li>
+          <li>Artificial colors (Red 40, Yellow 5/6)</li>
+          <li>"Natural flavors," emulsifiers, gums stacked up</li>
+          <li>Enriched / bleached wheat flour</li>
+        </ul>
+
+        <h3>Deprioritize</h3>
+        <p class="tight">Non-organic oats &amp; corn (glyphosate / GMO), sugary "health" bars, flavored yogurts, deli meats with additives.</p>
+      </section>
+
+      <!-- DECODE -->
+      <section class="sheet-block decode">
+        <h2>⦿ Read the label in 90 seconds</h2>
+        <ul class="decode-list">
+          <li><b>"Grass-fed" ≠ "grass-finished."</b> Most grass-fed beef is still grain-finished. Look for <i>100% grass-fed/finished</i>.</li>
+          <li><b>"Natural" means nothing.</b> It's marketing, not a standard. "Organic" and "Certified" do mean something.</li>
+          <li><b>"No hormones" on chicken/pork</b> is meaningless (already banned). It's only meaningful on <i>beef</i>.</li>
+          <li><b>Front vs back.</b> The front is an ad; the back (ingredients) is the law. When they disagree, believe the back.</li>
+          <li><b>PLU codes.</b> 5-digit starting 9 = organic. (The "8 = GMO" rule was never actually used — ignore it.)</li>
+          <li><b>Short is better.</b> Real food is usually 1–5 recognizable ingredients.</li>
+        </ul>
+
+        <h2 style="margin-top:12px;">↔ Once you're inside</h2>
+        <ol class="moves">
+          <li>Shop the <b>perimeter</b> — meat, fish, eggs, dairy, produce.</li>
+          <li>Only dip into center aisles for known staples (oil, tinned fish, nuts, spices).</li>
+          <li>Buy the <b>cheap real thing</b> before the expensive fake thing.</li>
+          <li>Full-fat, plain, single-ingredient — every time.</li>
+        </ol>
+      </section>
+
+    </div>
+
+    <div class="sheet-foot">
+      <span>The NonSlop Grocery Navigator · nonslop.net</span>
+      <span>Educational only — not medical advice. Verify grass-fed / organic / wild-caught claims locally.</span>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-foot no-print">
+  <div class="wrap">
+    <div class="foot-legal" style="border-top:none;">
+      <span>© <span data-year></span> The NonSlop Grocery Navigator · Volume One</span>
+      <a href="guide.html" class="link-underline">← Back to the guide</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

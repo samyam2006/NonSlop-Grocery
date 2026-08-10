@@ -23,6 +23,7 @@ const FILES = {
   "tools.html":   ["api/_content/tools.html", HTML],
   "plan.html":    ["api/_content/plan.html", HTML],
   "sources.html": ["api/_content/sources.html", HTML],
+  "cheatsheet.html": ["api/_content/cheatsheet.html", HTML],
   "assets/stores-data.js": ["api/_content/assets/stores-data.js.txt", JS],
   "assets/meals-data.js":  ["api/_content/assets/meals-data.js.txt", JS],
   "assets/plan.js":        ["api/_content/assets/plan.js.txt", JS]
