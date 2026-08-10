@@ -393,15 +393,27 @@
       list.forEach(function(s){
         var el = document.createElement('article');
         el.className = 'store';
+        var verSeal = s.verified ? '<span class="s-verified" title="Brands confirmed on the retailer\'s own listings">✓ Verified</span>' : '';
+        var brands = (s.brands && s.brands.length)
+          ? '<div class="s-brands">'+s.brands.map(function(b){ return '<span class="brand-chip">'+esc(b)+'</span>'; }).join('')+'</div>'
+          : '';
+        var brandsNote = s.brandsNote ? '<p class="s-note">'+esc(s.brandsNote)+'</p>' : '';
+        var avail = '<div class="s-avail">'+
+            '<span class="pill"><em>Organ meats</em>'+esc(s.organs || '—')+'</span>'+
+            '<span class="pill"><em>Quality dairy</em>'+esc(s.dairy || '—')+'</span>'+
+          '</div>';
         el.innerHTML =
           '<div class="s-main">'+
-            '<div class="s-name">'+esc(s.name)+' <span class="stamp ghost">'+esc(s.price)+'</span></div>'+
+            '<div class="s-name">'+esc(s.name)+' '+verSeal+' <span class="stamp ghost">'+esc(s.price)+'</span></div>'+
             '<div class="s-meta"><span>'+esc(s.country)+'</span><span>'+esc(s.region)+'</span><span>'+esc(s.type)+'</span></div>'+
             '<div class="s-buy">'+esc(s.buy)+'</div>'+
           '</div>'+
           '<div class="s-right">'+esc(s.region.toUpperCase())+'</div>'+
           '<div class="s-detail">'+
             '<div><h4>What to prioritise</h4><p>'+esc(s.buy)+'</p></div>'+
+            '<div><h4>Brands to look for</h4>'+brands+brandsNote+'</div>'+
+            avail+
+            '<div><h4>Skip here</h4><p>'+esc(s.skip || '—')+'</p></div>'+
             '<div><h4>Field note</h4><p>'+esc(s.tip)+'</p></div>'+
           '</div>';
         el.addEventListener('click', function(){ el.classList.toggle('open'); });
