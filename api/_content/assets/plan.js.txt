@@ -70,19 +70,32 @@
     render();
   }
 
+  /* ---- portion scale: stretch/shrink the fixed recipes so the day hits the
+         calorie target from the calculator (clamped to sane portions). ---- */
+  function planScale(){
+    if(!targets || !current || !current.meals.length) return 1;
+    var totK = 0; current.meals.forEach(function(m){ totK += m.kcal||0; });
+    var rawDaily = totK / (state.days || 1);
+    if(!rawDaily) return 1;
+    return Math.max(0.5, Math.min(3, targets.kcal / rawDaily));
+  }
+
   /* ---- render plan ---- */
   var DAYNAMES = ["Day 1","Day 2","Day 3","Day 4","Day 5","Day 6","Day 7","Day 8","Day 9","Day 10","Day 11","Day 12","Day 13","Day 14"];
   function render(){
     if(!current) return;
+    current.scale = planScale();
+    var sc = current.scale;
     var planEl = document.getElementById("planGrid");
     var slotLabel = { breakfast:"Breakfast", lunch:"Lunch", dinner:"Dinner" };
     planEl.innerHTML = current.plan.map(function(day){
       var rows = current.slots.map(function(s){
         var m = day.meals[s];
         if(!m) return "";
-        var macro = (m.kcal? (m.kcal+' kcal · '+m.p+'P / '+m.f+'F / '+m.c+'C'+(m.time?' · '+m.time+' min':'')) : '');
+        var mk=Math.round((m.kcal||0)*sc), mp=Math.round((m.p||0)*sc), mf=Math.round((m.f||0)*sc), mcb=Math.round((m.c||0)*sc);
+        var macro = (m.kcal? (mk+' kcal · '+mp+'P / '+mf+'F / '+mcb+'C'+(m.time?' · '+m.time+' min':'')) : '');
         var steps = (m.steps&&m.steps.length) ? '<ol class="plan-steps">'+m.steps.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol>' : '';
-        var ings = m.ing.map(function(ig){ return esc(ig.n)+(ig.q?(' — '+fmtQty(ig.q,ig.u)):''); }).join(' · ');
+        var ings = m.ing.map(function(ig){ return esc(ig.n)+(ig.q?(' — '+fmtQty(ig.q*sc,ig.u)):''); }).join(' · ');
         return '<div class="plan-meal"><span class="plan-slot">'+slotLabel[s]+'</span>'+
                '<details class="plan-recipe"><summary>'+
                  '<span class="plan-name">'+esc(m.name)+'</span>'+
@@ -91,7 +104,7 @@
                '<div class="plan-body">'+
                  (m.note?'<p class="plan-note">'+esc(m.note)+'</p>':'')+
                  steps+
-                 '<p class="plan-inglist"><strong>For 1 serving:</strong> '+ings+'</p>'+
+                 '<p class="plan-inglist"><strong>'+(targets?'Your portion:':'For 1 serving:')+'</strong> '+ings+'</p>'+
                '</div></details></div>';
       }).join("");
       return '<div class="plan-day"><div class="plan-daynum">'+(DAYNAMES[day.i]||("Day "+(day.i+1)))+'</div>'+rows+'</div>';
@@ -106,8 +119,9 @@
   function renderMacros(){
     var el = document.getElementById("planMacros");
     if(!el) return;
+    var sc = current.scale || 1;
     var tot = {kcal:0,p:0,f:0,c:0};
-    current.meals.forEach(function(m){ tot.kcal+=m.kcal||0; tot.p+=m.p||0; tot.f+=m.f||0; tot.c+=m.c||0; });
+    current.meals.forEach(function(m){ tot.kcal+=(m.kcal||0)*sc; tot.p+=(m.p||0)*sc; tot.f+=(m.f||0)*sc; tot.c+=(m.c||0)*sc; });
     var days = state.days || 1;
     var d = { kcal:Math.round(tot.kcal/days), p:Math.round(tot.p/days), f:Math.round(tot.f/days), c:Math.round(tot.c/days) };
     var cmp = "";
@@ -127,13 +141,14 @@
 
   /* ---- shopping list ---- */
   function renderList(){
+    var sc = current.scale || 1;
     var agg = {}; // cat -> { key -> {n,q,u,cat} }
     current.meals.forEach(function(m){
       m.ing.forEach(function(ig){
         var key = ig.n.toLowerCase()+"|"+ig.u;
         var bucket = agg[ig.cat] || (agg[ig.cat]={});
         if(!bucket[key]) bucket[key] = { n:ig.n, q:0, u:ig.u, cat:ig.cat };
-        bucket[key].q += ig.q * state.household;
+        bucket[key].q += ig.q * state.household * sc;
       });
     });
     var listEl = document.getElementById("shopList");
@@ -158,8 +173,9 @@
   /* ---- cost ---- */
   function renderCost(){
     var mult = TIER[state.tier];
+    var sc = current.scale || 1;
     var weekly = 0;
-    current.meals.forEach(function(m){ weekly += m.cost * mult * state.household; });
+    current.meals.forEach(function(m){ weekly += m.cost * mult * state.household * sc; });
     var perPersonWeek = weekly / state.household;
     var perPersonDay = perPersonWeek / state.days;
     var monthly = weekly * (30/state.days);
@@ -233,8 +249,14 @@
     var tdee = bmr * mc.activity;
     var kcal = tdee * (1 + mc.goal); // goal is -0.20 / 0 / +0.12
     kcal = Math.round(kcal/10)*10;
-    var protein = Math.round(2.0 * kg);                 // 2.0 g/kg
+    // protein responds to the goal: highest in a cut to spare muscle,
+    // moderate at maintenance, high-ish on a build.
+    var proteinPerKg = mc.goal < 0 ? 2.2 : (mc.goal > 0 ? 2.0 : 1.8);
+    var protein = Math.round(proteinPerKg * kg);
     var fat = Math.max(Math.round(0.9*kg), Math.round(0.30*kcal/9)); // floor for hormones
+    // keep the macros internally consistent: if protein+fat already exceed the
+    // calorie budget (aggressive cut), trim fat to the floor so nothing overshoots.
+    if(protein*4 + fat*9 > kcal){ fat = Math.max(Math.round(0.6*kg), Math.round((kcal - protein*4)/9)); }
     var carbs = Math.max(0, Math.round((kcal - protein*4 - fat*9)/4));
     targets = { kcal:kcal, p:protein, f:fat, c:carbs };
     out.innerHTML =
@@ -242,7 +264,7 @@
       '<div class="tcard"><div class="tnum">'+protein+'g</div><div class="tlbl">Protein</div></div>'+
       '<div class="tcard"><div class="tnum">'+fat+'g</div><div class="tlbl">Fat</div></div>'+
       '<div class="tcard"><div class="tnum">'+carbs+'g</div><div class="tlbl">Carbs</div></div>';
-    if(current) renderMacros();
+    if(current) render();
   }
   function segM(id, key, cast){
     var el = document.getElementById(id); if(!el) return;
